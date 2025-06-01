@@ -17,9 +17,3 @@ COPY --from=build /app/target/*.jar app.jar
 COPY Backend/Spring/demo/wait-for-it.sh /wait-for-it.sh
 RUN chmod +x /wait-for-it.sh
 CMD ["/wait-for-it.sh", "${DB_HOST}:${DB_PORT}", "--", "java", "-jar", "/app/app.jar"]
-
-# Configuración de la base de datos
-ENV SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
-ENV SPRING_DATASOURCE_USERNAME=${DB_USER}
-ENV SPRING_DATASOURCE_PASSWORD=${DB_PASS}
-ENV SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
