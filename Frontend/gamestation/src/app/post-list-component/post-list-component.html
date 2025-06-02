@@ -30,7 +30,7 @@
         'border-success': item.tipo === 'analisis',
         'border-warning': item.tipo === 'noticia'
       }">
-        <img *ngIf="item.portada" [src]="item.portada" class="card-img-top" alt="Portada">
+        <img *ngIf="item.portada" [src]="item.portada" class="card-img-top" alt="Portada" />
         <div class="card-body">
           <h5 class="card-title">{{ item.titulo }}</h5>
           <h6 class="card-subtitle mb-2 text-muted">{{ item.subtitulo }}</h6>
