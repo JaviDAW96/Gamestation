@@ -1,0 +1,38 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql-db
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: mysql23
+      MYSQL_DATABASE: gamestation
+      MYSQL_USER: javier
+      MYSQL_PASSWORD: jAvier_12345
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+
+  backend:
+    build: ./Backend/Spring/demo
+    container_name: backend-spring
+    depends_on:
+      - mysql-db
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/gamestation
+      SPRING_DATASOURCE_USERNAME: javier
+      SPRING_DATASOURCE_PASSWORD: jAvier_12345
+
+  frontend:
+    build: ./Frontend/Gamestation
+    container_name: frontend-angular
+    depends_on:
+      - backend
+    ports:
+      - "443:443"
+
+volumes:
+  mysql_data:
+    name: desarrollo_mysql_data
