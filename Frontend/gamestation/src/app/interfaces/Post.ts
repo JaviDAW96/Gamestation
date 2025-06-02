@@ -10,4 +10,5 @@ export interface Post {
   fechaPublicacion: string;     // ISO string, p. ej. "2025-05-14"
   tipo: PostTipo;
   id_usuario: number;
+  portada?: string;             // <-- Agrega esta línea aquí
 }
