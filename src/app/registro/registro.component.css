@@ -1,0 +1,25 @@
+:root {
+  --electric-blue: #00a8e8;
+}
+
+.btn-electric {
+  background-color: var(--electric-blue);
+  color: white;
+  border: none;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.25rem;
+}
+
+.btn-electric:hover {
+  background-color: #0093c4;
+}
+
+.card-electric {
+  border: 2px solid var(--electric-blue);
+  border-radius: 1rem;
+}
+
+/* Asegura que los elementos HTML ocupen toda la altura */
+html, body {
+  height: 100%;
+}

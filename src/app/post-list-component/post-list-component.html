@@ -1,0 +1,47 @@
+<!-- Noticias destacadas -->
+<div *ngIf="items && items.length > 0">
+  <h5 class="mb-3 text-primary">Noticias destacadas</h5>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
+    <ng-container *ngFor="let noticia of items | slice:0:5">
+      <div class="col" *ngIf="noticia.tipo === 'noticia'">
+        <div class="card h-100 border-warning">
+          <img *ngIf="noticia.portada" [src]="noticia.portada" class="card-img-top" alt="Portada noticia">
+          <div class="card-body">
+            <h5 class="card-title">{{ noticia.titulo }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ noticia.subtitulo }}</h6>
+            <p class="card-text">{{ noticia.descripcion }}</p>
+            <p class="card-text">{{ noticia.contenido }}</p>
+          </div>
+          <div class="card-footer bg-transparent border-0">
+            <small class="text-muted">Publicado el {{ noticia.fechaPublicacion | date: 'dd/MM/yyyy' }}</small>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+
+<!-- Listado general de artículos, análisis, etc. -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+  <ng-container *ngFor="let item of items">
+    <div class="col">
+      <div class="card h-100" [ngClass]="{
+        'border-info': item.tipo === 'articulo',
+        'border-success': item.tipo === 'analisis',
+        'border-warning': item.tipo === 'noticia'
+      }">
+        <img *ngIf="item.portada" [src]="item.portada" class="card-img-top" alt="Portada">
+        <div class="card-body">
+          <h5 class="card-title">{{ item.titulo }}</h5>
+          <h6 class="card-subtitle mb-2 text-muted">{{ item.subtitulo }}</h6>
+          <p class="card-text">{{ item.descripcion }}</p>
+          <p class="card-text">{{ item.contenido }}</p>
+        </div>
+        <div class="card-footer bg-transparent border-0">
+          <small class="text-muted">Publicado el {{ item.fechaPublicacion | date: 'dd/MM/yyyy' }}</small>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+

@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Angular (HTTPS)",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "preLaunchTask": "Angular: serve con SSL",
+      "url": "https://localhost:4200",
+      "webRoot": "${workspaceFolder}",
+      "sourceMaps": true
+    }
+  ]
+}

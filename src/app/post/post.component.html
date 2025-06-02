@@ -1,0 +1,57 @@
+<!-- src/app/components/post/post.component.html -->
+<div *ngIf="cargando">
+  <p>Cargando post…</p>
+</div>
+
+<div *ngIf="!cargando">
+  <h2 *ngIf="modoEdicion; else nuevaTpl">
+    Editar Post
+  </h2>
+  <ng-template #nuevaTpl>
+    <h2>Crear Nuevo Post</h2>
+  </ng-template>
+
+  <form [formGroup]="postForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Título</label>
+      <input formControlName="titulo" />
+    </div>
+    <div>
+      <label>Subtítulo</label>
+      <input formControlName="subtitulo" />
+    </div>
+    <div>
+      <label>Descripción</label>
+      <input formControlName="descripcion" />
+    </div>
+    <div>
+      <label>Contenido</label>
+      <textarea formControlName="contenido" rows="6"></textarea>
+    </div>
+    <div>
+      <label>Fecha de publicación</label>
+      <input formControlName="fechaPublicacion" type="date" />
+    </div>
+    <div>
+      <label>Tipo</label>
+      <select formControlName="tipo">
+        <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
+      </select>
+    </div>
+    <div>
+      <label>Usuario (ID)</label>
+      <input formControlName="id_usuario" type="number" />
+    </div>
+
+    <div class="botones">
+      <button type="submit" [disabled]="postForm.invalid">
+        {{ modoEdicion ? 'Guardar cambios' : 'Crear post' }}
+      </button>
+      <button *ngIf="modoEdicion" type="button" (click)="onDelete()">
+        Eliminar post
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+</div>
