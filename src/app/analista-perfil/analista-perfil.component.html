@@ -1,0 +1,60 @@
+<!-- src/app/components/analista/analista.component.html -->
+<div class="analista-container" *ngIf="!loading; else cargando">
+  <header class="perfil-header">
+    <h1>Perfil de {{ analista.id_usuario }}</h1>
+    <p>{{ analista.descripcion }}</p>
+    <p><strong>Experiencia:</strong> {{ analista.experienciaLaboral }}</p>
+    <p><strong>Noticias publicadas:</strong> {{ analista.noticiasPublicadas }}</p>
+    <button (click)="editarPerfil()">Editar perfil</button>
+  </header>
+
+  <div class="columns">
+    <section>
+      <div class="col-header">
+        <h2>Análisis</h2>
+        <button (click)="crear('analisis')">Crear análisis</button>
+      </div>
+      <ul>
+        <li *ngFor="let post of analisis">
+          <h3>{{ post.titulo }}</h3>
+          <p>{{ post.subtitulo }}</p>
+          <button (click)="editarPost(post)">Editar</button>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="col-header">
+        <h2>Artículos</h2>
+        <button (click)="crear('articulo')">Crear artículo</button>
+      </div>
+      <ul>
+        <li *ngFor="let post of articulos">
+          <h3>{{ post.titulo }}</h3>
+          <p>{{ post.subtitulo }}</p>
+          <button (click)="editarPost(post)">Editar</button>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <div class="col-header">
+        <h2>Noticias</h2>
+        <button (click)="crear('noticia')">Crear noticia</button>
+      </div>
+      <ul>
+        <li *ngFor="let post of noticias">
+          <h3>{{ post.titulo }}</h3>
+          <p>{{ post.subtitulo }}</p>
+          <button (click)="editarPost(post)">Editar</button>
+        </li>
+      </ul>
+    </section>
+  </div>
+</div>
+
+<ng-template #cargando>
+  <p>Cargando perfil del analista…</p>
+</ng-template>
+
+<div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>

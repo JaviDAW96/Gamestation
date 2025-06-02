@@ -1,0 +1,29 @@
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.main-content {
+  background: #fafafa;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.sidebar {
+  background: #f5f5f5;
+  padding: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+/* Responsive: en pantallas estrechas, apilar columnas */
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    margin-top: 1.5rem;
+  }
+}

@@ -1,0 +1,25 @@
+<header class="site-header">
+  <div class="logo">
+    <a routerLink="/">MiApp</a>
+  </div>
+  <nav class="nav-menu">
+    <ul>
+      <li><a routerLink="/">Home</a></li>
+      <li><a routerLink="/analistas">Analistas</a></li>
+      <li><a routerLink="/usuarios">Usuarios</a></li>
+      <li><a routerLink="/videojuegos">Videojuegos</a></li>
+    </ul>
+  </nav>
+</header>
+<nav class="navbar navbar-expand-lg navbar-light bg-light px-4">
+  <span class="navbar-brand mb-0 h1">GameStation</span>
+  <div class="ms-auto d-flex align-items-center">
+    <!-- Otros elementos del header aquí -->
+
+    <!-- Botón de logout -->
+    <button class="btn btn-danger d-flex align-items-center ms-3" (click)="logout()">
+      <i class="bi bi-person-circle me-2"></i>
+      Cerrar sesión
+    </button>
+  </div>
+</nav>

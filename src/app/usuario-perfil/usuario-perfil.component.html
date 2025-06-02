@@ -1,0 +1,55 @@
+<!-- src/app/components/usuario/usuario.component.html -->
+<div *ngIf="cargando">
+  <p>Cargando usuario…</p>
+</div>
+
+<div *ngIf="!cargando">
+  <h2 *ngIf="modoEdicion; else nuevaPlantilla">
+    Editar Usuario
+  </h2>
+  <ng-template #nuevaPlantilla>
+    <h2>Crear Nuevo Usuario</h2>
+  </ng-template>
+
+  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
+    <div>
+      <label>Nombre</label>
+      <input formControlName="nombre" />
+    </div>
+    <div>
+      <label>Apellidos</label>
+      <input formControlName="apellidos" />
+    </div>
+    <div>
+      <label>DNI</label>
+      <input formControlName="dni" />
+    </div>
+    <div>
+      <label>Email</label>
+      <input formControlName="email" type="email" />
+    </div>
+    <div>
+      <label>Fecha nacimiento</label>
+      <input formControlName="fechaNacimiento" type="date" />
+    </div>
+    <div>
+      <label>Imagen (URL)</label>
+      <input formControlName="imagen" />
+    </div>
+    <div *ngIf="!modoEdicion">
+      <label>Password</label>
+      <input formControlName="password" type="password" />
+    </div>
+
+    <div class="botones">
+      <button type="submit" [disabled]="usuarioForm.invalid">
+        {{ modoEdicion ? 'Guardar cambios' : 'Crear usuario' }}
+      </button>
+      <button *ngIf="modoEdicion" type="button" (click)="onDelete()">
+        Eliminar usuario
+      </button>
+    </div>
+  </form>
+
+  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+</div>

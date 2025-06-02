@@ -37,6 +37,26 @@
           }
         }
       }
+    },
+    {
+      "label": "Angular: serve con SSL",
+      "type": "shell",
+      "command": "ng serve --ssl",
+      "isBackground": true,
+      "problemMatcher": {
+        "owner": "custom",
+        "pattern": {
+          "regexp": ".",
+          "file": 1,
+          "location": 2,
+          "message": 3
+        },
+        "background": {
+          "activeOnStart": true,
+          "beginsPattern": "ℹ ｢wdm｣:",
+          "endsPattern": "Compiled successfully"
+        }
+      }
     }
   ]
 }
