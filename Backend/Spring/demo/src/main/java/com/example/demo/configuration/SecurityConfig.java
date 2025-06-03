@@ -89,7 +89,7 @@ public class SecurityConfig {
         configuration.setAllowedOriginPatterns(Arrays.asList(
     "http://localhost:4200",
     "https://localhost:4200",
-    "https://gamestation-frontend.onrender.com"
+    "https://gamestation-frontend-58rf.onrender.com"
 ));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
