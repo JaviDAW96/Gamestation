@@ -1,7 +1,11 @@
-export interface PerfilUsuario {
-  id?: number;
+export interface InterfazUsuario {
+  id: number;
+  rol: { id: number; rol: string };
   nombre: string;
-  apellido: string;
-  correo: string;
-  contraseña: string;
+  apellidos: string;
+  dni: string;
+  email: string;
+  fechaNacimiento: string;
+  imagen: string | null;
+  password: string;
 }

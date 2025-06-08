@@ -43,10 +43,10 @@ public class UsuarioController {
     }
 
     /**
-     * Obtiene un usuario por ID (rol ADMIN)
+     * Permite a cualquier usuario autenticado ver su propio perfil
      */
     @GetMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN') or #id == authentication.principal.id")
     public ResponseEntity<UsuarioDTO> getById(@PathVariable Long id) {
         UsuarioDTO dto = usuarioService.findById(id);
         return ResponseEntity.ok(dto);

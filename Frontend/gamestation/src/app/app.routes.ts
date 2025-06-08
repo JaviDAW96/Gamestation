@@ -6,8 +6,11 @@ import { VideojuegoPerfilComponent } from './videojuego-perfil/videojuego-perfil
 import { UsuarioComponent } from './usuario-perfil/usuario-perfil.component';
 import { AnalistaComponent } from './analista-perfil/analista-perfil.component';
 import { AuthGuard } from './auth/auth.guard'; // Asegúrate de que la ruta sea correcta
-// Agrega aquí los demás componentes que tengas, por ejemplo:
-// import { OtroComponente } from './otro/otro.component';
+import { PostComponent } from './post/post.component'; // Asegúrate de importar el componente
+import { PostDetailComponent } from './post-detail/post-detail.component'; // Asegúrate de importar el componente de detalle
+import { AnalisisComponent } from './analisis/analisis.component'; // <-- Añade esta importación
+import { ArticulosComponent } from './articulos/articulos.component';
+import { NoticiasComponent } from './noticias/noticias.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -17,11 +20,17 @@ export const routes: Routes = [
         canActivate: [AuthGuard],
         children: [
             { path: 'home', component: HomeComponent },
+            { path: 'analisis', component: AnalisisComponent },
+            { path: 'articulos', component: ArticulosComponent },
+            { path: 'noticias', component: NoticiasComponent },
             { path: 'videojuego-perfil/:id', component: VideojuegoPerfilComponent },
             { path: 'usuario-perfil/:id', component: UsuarioComponent },
             { path: 'analista-perfil/:id', component: AnalistaComponent },
-            { path: '', redirectTo: 'home', pathMatch: 'full' }, // Redirige a home si está autenticado y entra a /
+            { path: 'post/crear', component: PostComponent },
+            { path: 'post/:id', component: PostDetailComponent },
+            { path: 'post/:id/editar', component: PostComponent },
+            { path: '', redirectTo: 'home', pathMatch: 'full' },
         ]
     },
-    { path: '**', redirectTo: 'login' } // Cualquier otra ruta, redirige a login
+    { path: '**', redirectTo: 'login' }
 ];

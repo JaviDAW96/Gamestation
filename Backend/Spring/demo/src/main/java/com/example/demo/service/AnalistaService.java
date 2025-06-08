@@ -15,6 +15,8 @@ public interface AnalistaService {
      */
     AnalistaDTO findById(Long id);
 
+    AnalistaDTO findByUsuarioId(Long idUsuario);
+
     /**
      * Actualiza un usuario existente
      */

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.demo.model.dto.PostDTO;
 
@@ -22,8 +22,9 @@ import com.example.demo.repository.entity.PostCategoriaId;
 import com.example.demo.repository.entity.PostEtiqueta;
 import com.example.demo.repository.entity.PostEtiquetaId;
 import com.example.demo.repository.entity.Reaccion;
+import com.example.demo.repository.dao.MultimediaRepository;
+import com.example.demo.repository.dao.AnalistaRepository;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -41,6 +42,10 @@ public class PostServiceImpl implements PostService {
     private CategoriaRepository categoriaRepo;
     @Autowired
     private UsuarioRepository usuarioRepository;
+    @Autowired
+    private MultimediaRepository multimediaRepo;
+    @Autowired
+    private AnalistaRepository analistaRepository;
 
     @Override
     public List<PostDTO> findAll() {
@@ -51,7 +56,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDTO create(PostDTO dto) {
-        // Convertimos PostDTO a Post, inyectando cómo obtener cada entidad
         Post entity = PostDTO.convertToEntity(
                 dto,
                 usuarioId -> usuarioRepository.findById(usuarioId)
@@ -60,10 +64,26 @@ public class PostServiceImpl implements PostService {
                         .orElseThrow(() -> new RuntimeException("Categoría no encontrada: " + categoriaId)),
                 etiquetaId -> etiquetaRepo.findById(etiquetaId)
                         .orElseThrow(() -> new RuntimeException("Etiqueta no encontrada: " + etiquetaId)),
-                multimediaId -> null);
+                multimediaId -> {
+                    System.out.println("fetchMultimedia lambda recibe: " + multimediaId);
+                    if (multimediaId == null) return null;
+                    return multimediaRepo.findById(multimediaId)
+                            .orElseThrow(() -> new RuntimeException("Multimedia no encontrada: " + multimediaId));
+                }
+        );
 
         // Guardamos
         Post guardado = postRepo.save(entity);
+
+        // Si el post es de tipo noticia, actualiza el contador en analista
+        if ("noticia".equalsIgnoreCase(entity.getTipo())) {
+            analistaRepository.findByIdUsuario(entity.getUsuario().getId()).ifPresent(analista -> {
+                int nuevasNoticias = (analista.getNoticiasPublicadas() == null ? 0 : analista.getNoticiasPublicadas()) + 1;
+                analista.setNoticiasPublicadas(nuevasNoticias);
+                analistaRepository.save(analista);
+            });
+        }
+
         return PostDTO.convertToDTO(guardado);
     }
 
@@ -150,10 +170,19 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<PostDTO> findAllByTipo(String tipo) {
-        return postRepo.findByTipo(tipo).stream()
-                .map(PostDTO::convertToDTO)
-                .collect(Collectors.toList());
+        List<Post> posts = postRepo.findAllByTipoWithAllRelations(tipo);
+        System.out.println("Posts recuperados: " + posts.size());
+        for (Post p : posts) {
+            System.out.println("Post ID: " + p.getId());
+            System.out.println("PostMultimedia: " + (p.getPostMultimedia() != null ? p.getPostMultimedia().size() : "null"));
+            System.out.println("Comentarios: " + (p.getComentarios() != null ? p.getComentarios().size() : "null"));
+            System.out.println("Reacciones: " + (p.getReacciones() != null ? p.getReacciones().size() : "null"));
+            System.out.println("Etiquetas: " + (p.getEtiquetas() != null ? p.getEtiquetas().size() : "null"));
+            System.out.println("Categorias: " + (p.getCategorias() != null ? p.getCategorias().size() : "null"));
+        }
+        return posts.stream().map(PostDTO::convertToDTO).toList();
     }
 
 

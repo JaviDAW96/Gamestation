@@ -1,4 +1,4 @@
 export const environment = {
-    production: true,
-    apiUrl: 'https://gamestation-29x8.onrender.com/api'
+  production: false,
+  apiUrl: 'https://localhost:8080/api'
 };

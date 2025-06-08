@@ -4,6 +4,8 @@ package com.example.demo.repository.dao;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.example.demo.repository.entity.Post;
@@ -14,4 +16,17 @@ import com.example.demo.repository.entity.Post;
 public interface PostRepository extends JpaRepository<Post, Long>{
 
     List<Post> findByTipo(String tipo);
+
+    List<Post> findByUsuarioId(Long usuarioId);
+
+    @Query("""
+        SELECT p FROM Post p
+        LEFT JOIN FETCH p.postMultimedia
+        LEFT JOIN FETCH p.comentarios
+        LEFT JOIN FETCH p.reacciones
+        LEFT JOIN FETCH p.etiquetas
+        LEFT JOIN FETCH p.categorias
+        WHERE p.tipo = :tipo
+    """)
+    List<Post> findAllByTipoWithAllRelations(@Param("tipo") String tipo);
 }

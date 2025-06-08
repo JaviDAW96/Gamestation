@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,20 +16,27 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "posts")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Post {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
     private Long id;
 
     @ManyToOne
@@ -66,5 +75,27 @@ public class Post {
 
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
+    @JsonIgnore
     private Set<PostMultimedia> postMultimedia = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "miniatura_id")
+    private Multimedia miniatura;
+
+    @ManyToOne
+    @JoinColumn(name = "portada_id")
+    private Multimedia portada;
+
+    @ManyToOne
+    @JoinColumn(name = "imagen_contenido1_id")
+    private Multimedia imagenContenido1;
+
+    @ManyToOne
+    @JoinColumn(name = "imagen_contenido2_id")
+    private Multimedia imagenContenido2;
+
+    @ManyToOne
+    @JoinColumn(name = "imagen_contenido3_id")
+    private Multimedia imagenContenido3;
+
 }

@@ -1,47 +1,146 @@
-<!-- Noticias destacadas -->
-<div *ngIf="items && items.length > 0">
-  <h5 class="mb-3 text-primary">Noticias destacadas</h5>
-  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mb-4">
-    <ng-container *ngFor="let noticia of items | slice:0:5">
-      <div class="col" *ngIf="noticia.tipo === 'noticia'">
-        <div class="card h-100 border-warning">
-          <img *ngIf="noticia.portada" [src]="noticia.portada" class="card-img-top" alt="Portada noticia">
-          <div class="card-body">
-            <h5 class="card-title">{{ noticia.titulo }}</h5>
-            <h6 class="card-subtitle mb-2 text-muted">{{ noticia.subtitulo }}</h6>
-            <p class="card-text">{{ noticia.descripcion }}</p>
-            <p class="card-text">{{ noticia.contenido }}</p>
-          </div>
-          <div class="card-footer bg-transparent border-0">
-            <small class="text-muted">Publicado el {{ noticia.fechaPublicacion | date: 'dd/MM/yyyy' }}</small>
-          </div>
-        </div>
-      </div>
-    </ng-container>
-  </div>
-</div>
-
-<!-- Listado general de artículos, análisis, etc. -->
-<div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-  <ng-container *ngFor="let item of items">
-    <div class="col">
-      <div class="card h-100" [ngClass]="{
-        'border-info': item.tipo === 'articulo',
-        'border-success': item.tipo === 'analisis',
-        'border-warning': item.tipo === 'noticia'
-      }">
-        <img *ngIf="item.portada" [src]="item.portada" class="card-img-top" alt="Portada" />
-        <div class="card-body">
-          <h5 class="card-title">{{ item.titulo }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ item.subtitulo }}</h6>
-          <p class="card-text">{{ item.descripcion }}</p>
-          <p class="card-text">{{ item.contenido }}</p>
-        </div>
-        <div class="card-footer bg-transparent border-0">
-          <small class="text-muted">Publicado el {{ item.fechaPublicacion | date: 'dd/MM/yyyy' }}</small>
+<div class="container py-4">
+  <!-- Noticias destacadas: 2 grandes arriba -->
+  <div class="row g-3 mb-3">
+    <div class="col-md-6" *ngFor="let noticia of noticiasGrandes">
+      <div class="position-relative rounded overflow-hidden shadow-lg h-100 noticia-img-grande bg-dark">
+        <img
+          [src]="noticia.miniatura?.url"
+          class="w-100 h-100 object-fit-cover noticia-hover"
+          alt="Miniatura noticia"
+        />
+        <div class="noticia-banda-opaca p-3">
+          <h4 class="mb-1">{{ noticia.titulo }}</h4>
+          <h6 class="mb-1">{{ noticia.subtitulo }}</h6>
+          <p class="mb-1 small">{{ noticia.descripcion }}</p>
+          <span class="small">
+            {{ noticia.fechaPublicacion | date: 'dd/MM/yyyy' }}
+          </span>
         </div>
       </div>
     </div>
-  </ng-container>
+  </div>
+
+  <!-- Noticias pequeñas: 3 debajo -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4" *ngFor="let noticia of noticiasPequenas">
+      <div class="position-relative rounded overflow-hidden shadow h-100 noticia-img-pequena bg-dark">
+        <img
+          [src]="noticia.miniatura?.url"
+          class="w-100 h-100 object-fit-cover noticia-hover"
+          alt="Miniatura noticia"
+        />
+        <div class="noticia-banda-opaca p-2">
+          <h5 class="mb-1">{{ noticia.titulo }}</h5>
+          <div class="small">{{ noticia.subtitulo }}</div>
+          <div class="small">{{ noticia.descripcion }}</div>
+          <span class="small">
+            {{ noticia.fechaPublicacion | date: 'dd/MM/yyyy' }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Grid de destacados -->
+  <div class="row g-3">
+    <div class="col-md-6">
+      <h4 class="mb-3">Análisis destacados</h4>
+      <div *ngFor="let analisis of analisisDestacados" class="mb-3">
+        <div class="position-relative rounded overflow-hidden shadow-lg noticia-img-grande bg-dark">
+          <img
+            [src]="analisis.miniatura?.url"
+            class="w-100 h-100 object-fit-cover noticia-hover"
+            alt="Miniatura análisis"
+          />
+          <div class="noticia-banda-opaca p-3">
+            <h5 class="mb-1">{{ analisis.titulo }}</h5>
+            <div class="mb-1">{{ analisis.subtitulo }}</div>
+            <div class="mb-1 small">{{ analisis.descripcion }}</div>
+            <span class="small">
+              {{ analisis.fechaPublicacion | date: 'dd/MM/yyyy' }}
+            </span>
+            <div class="mt-2 d-flex gap-2">
+              <a
+                class="btn btn-primary btn-sm"
+                [routerLink]="['/post', analisis.id]"
+                >Ver</a
+              >
+              <a
+                *ngIf="esAnalista"
+                class="btn btn-secondary btn-sm"
+                [routerLink]="['/post', analisis.id, 'editar']"
+                >Editar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <h4 class="mb-3">Artículos destacados</h4>
+      <div *ngFor="let articulo of articulosDestacados" class="mb-3">
+        <div class="position-relative rounded overflow-hidden shadow-lg noticia-img-grande bg-dark">
+          <img
+            [src]="articulo.miniatura?.url"
+            class="w-100 h-100 object-fit-cover noticia-hover"
+            alt="Miniatura artículo"
+          />
+          <div class="noticia-banda-opaca p-3">
+            <h5 class="mb-1">{{ articulo.titulo }}</h5>
+            <div class="mb-1">{{ articulo.subtitulo }}</div>
+            <div class="mb-1 small">{{ articulo.descripcion }}</div>
+            <span class="small">
+              {{ articulo.fechaPublicacion | date: 'dd/MM/yyyy' }}
+            </span>
+            <div class="mt-2 d-flex gap-2">
+              <a
+                class="btn btn-primary btn-sm"
+                [routerLink]="['/post', articulo.id]"
+                >Ver</a
+              >
+              <a
+                *ngIf="esAnalista"
+                class="btn btn-secondary btn-sm"
+                [routerLink]="['/post', articulo.id, 'editar']"
+                >Editar</a
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+<style>
+  .noticia-img-grande {
+    min-height: 320px;
+    max-height: 380px;
+  }
+  .noticia-img-pequena {
+    min-height: 180px;
+    max-height: 220px;
+  }
+  .noticia-banda-opaca {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.85) 80%,
+      rgba(0, 0, 0, 0.2) 100%
+    );
+    color: #fff;
+    width: 100%;
+  }
+  .noticia-hover {
+    transition: transform 0.3s cubic-bezier(0.4, 2, 0.6, 1);
+  }
+  .noticia-hover:hover {
+    transform: scale(1.04);
+    filter: brightness(0.95);
+    z-index: 2;
+  }
+</style>
 

@@ -1,25 +1,6 @@
 <app-header></app-header>
 
-<!-- Mensaje de bienvenida flotante -->
-<div
-  *ngIf="showWelcome"
-  class="welcome-toast position-fixed top-0 start-50 translate-middle-x mt-3 px-4 py-2 rounded shadow text-white small"
-  style="z-index: 1050; background: #ff9800;"
->
-  ¡Bienvenido{{ username ? ', ' + username : '' }}!
-</div>
-
-<main class="container d-flex mt-4">
-  <section class="flex-grow-1 me-4">
-    <h2>Últimos Posts</h2>
-    <!-- Listado de posts dinámico -->
-    <app-post-list [items]="posts"></app-post-list>
-  </section>
-  <aside style="width: 300px;">
-    <h3>Artículos destacados</h3>
-    <!-- Listado de artículos dinámico -->
-    <app-post-list [items]="articulos"></app-post-list>
-  </aside>
-</main>
+<!-- NUEVO DISEÑO HOME -->
+<app-post-list [items]="posts"></app-post-list>
 
 <app-footer></app-footer>

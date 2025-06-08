@@ -12,6 +12,6 @@ import com.example.demo.repository.entity.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
     Optional<Usuario> findByEmail(String email);
     boolean existsByEmail(String email);
-    Boolean existsByNombre(String username);
+    Boolean existsByNombre(String nombre);
     List<Usuario> findAllByNombre(String nombre);
 }

@@ -7,7 +7,7 @@ import { PostService } from './posts.service';
 
 @Injectable({ providedIn: 'root' })
 export class AnalistaService {
-    private apiUrl = 'http://localhost:8080/api/analistas';
+    private apiUrl = 'https://localhost:8080/api/analistas';
 
     analista?: InterfazAnalista;
     errorMsg?: string;
@@ -22,9 +22,9 @@ export class AnalistaService {
         private postService: PostService
     ) { }
 
-    getPerfil(id: number): Observable<InterfazAnalista> {
-        return this.http.get<InterfazAnalista>(`${this.apiUrl}/${id}`);
-    }
+   getPerfil(id: number): Observable<InterfazAnalista> {
+    return this.http.get<InterfazAnalista>(`${this.apiUrl}/${id}`);
+}
 
     getPostsPorTipo(usuarioId: number) {
         return forkJoin({
@@ -35,7 +35,7 @@ export class AnalistaService {
     }
 
     private loadPerfil(id: number) {
-        this.http.get<InterfazAnalista>(`http://localhost:8080/api/analistas/${id}`)
+        this.http.get<InterfazAnalista>(`https://localhost:8080/api/analistas/${id}`)
             .subscribe({
                 next: a => this.analista = a,
                 error: () => this.errorMsg = 'Error cargando perfil'
@@ -55,6 +55,10 @@ export class AnalistaService {
                 this.loading = false;
             })
             .catch(() => this.errorMsg = 'Error cargando los posts');
+    }
+
+    getAnalistaPorUsuarioId(userId: number) {
+        return this.http.get<InterfazAnalista>(`${this.apiUrl}/usuario/${userId}`);
     }
 
 }

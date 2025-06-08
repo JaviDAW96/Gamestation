@@ -23,20 +23,33 @@ export class PostService {
 
   getByUsuarioYTipo(usuarioId: number, tipo: string): Observable<Post[]> {
     const params = new HttpParams()
-      .set('usuarioId', usuarioId.toString())
+      .set('usuarioId', usuarioId.toString()) // <-- AQUÍ
       .set('tipo', tipo);
     return this.http.get<Post[]>(this.baseUrl, { params });
   }
 
-  create(post: Post): Observable<Post> {
+  create(post: FormData): Observable<Post> {
     return this.http.post<Post>(this.baseUrl, post);
   }
 
-  update(id: number, post: Post): Observable<Post> {
+  update(id: number, post: FormData): Observable<Post> {
     return this.http.put<Post>(`${this.baseUrl}/${id}`, post);
   }
 
   delete(id: number): Observable<void> {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
+  }
+
+  createMultimedia(multimedia: any) {
+    return this.http.post<any>(`${environment.apiUrl}/multimedia`, multimedia);
+  }
+
+  findAllPosts(): Observable<Post[]> {
+    return this.http.get<Post[]>(this.baseUrl);
+  }
+
+  logAnalista(analista: any) {
+    console.log('Analista recibido:', analista);
+    console.log('ID usuario:', analista.id_usuario);
   }
 }

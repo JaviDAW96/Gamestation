@@ -5,12 +5,13 @@ import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
 import { FooterComponent } from "../footer/footer.component";
 import { HeaderComponent } from "../header/header.component";
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
   templateUrl: './registro.component.html',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule, FooterComponent, HeaderComponent],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
   styleUrls: ['./registro.component.css']
 })
 export class RegistroComponent implements OnInit {
@@ -30,7 +31,9 @@ export class RegistroComponent implements OnInit {
       apellidos: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      confirmPassword: ['', Validators.required]
+      confirmPassword: ['', Validators.required],
+      dni: ['', Validators.required],
+      fecha_nacimiento: ['', Validators.required]
     }, { validators: this.passwordsMatch });
   }
 
@@ -51,20 +54,39 @@ export class RegistroComponent implements OnInit {
   onSubmit(): void {
     this.errorMessage = this.successMessage = null;
     if (this.registroForm.invalid) {
-      this.registroForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'error',
+        title: 'Formulario inválido',
+        text: 'Por favor, completa todos los campos correctamente.'
+      });
       return;
     }
 
-    const { nombre, apellidos, email, password } = this.registroForm.value;
+    const { nombre, apellidos, email, password, dni, fecha_nacimiento } = this.registroForm.value;
 
-    this.authService.registro({ nombre, apellidos, email, password }).subscribe({
+    this.authService.registro({
+      nombre,
+      apellidos,
+      email,
+      password,
+      dni,
+      fecha_nacimiento,
+    }).subscribe({
       next: () => {
-        this.successMessage = 'Registro exitoso. Por favor, inicia sesión.';
-        // opcionalmente redirigir tras un breve timeout:
-        setTimeout(() => this.router.navigate(['/login']), 2000);
+        Swal.fire({
+          icon: 'success',
+          title: '¡Registro exitoso!',
+          text: 'Tu cuenta ha sido creada correctamente.'
+        }).then(() => {
+          this.router.navigate(['/login']);
+        });
       },
       error: err => {
-        this.errorMessage = err.error?.message || 'Error al registrarse';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error en el registro',
+          text: err?.error?.message || 'No se pudo crear la cuenta. Intenta de nuevo.'
+        });
       }
     });
   }

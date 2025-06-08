@@ -1,29 +1,28 @@
 services:
-  mysql-db:
-    image: mysql:8.0
-    container_name: mysql-db
+  postgres-db:
+    image: postgres:15
+    container_name: postgres-db
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      MYSQL_ROOT_PASSWORD: mysql23
-      MYSQL_DATABASE: gamestation
-      MYSQL_USER: javier
-      MYSQL_PASSWORD: jAvier_12345
+      POSTGRES_DB: gamestation_db
+      POSTGRES_USER: gamestation_db_user
+      POSTGRES_PASSWORD: 0uKPZxbYA1CLO3bTpNhtQy0a84QLDtQ0
     volumes:
-      - mysql_data:/var/lib/mysql
+      - pgdata:/var/lib/postgresql/data
     restart: unless-stopped
 
   backend:
     build: ./Backend/Spring/demo
     container_name: backend-spring
     depends_on:
-      - mysql-db
+      - postgres-db
     ports:
       - "8080:8080"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/gamestation
-      SPRING_DATASOURCE_USERNAME: javier
-      SPRING_DATASOURCE_PASSWORD: jAvier_12345
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/gamestation_db
+      SPRING_DATASOURCE_USERNAME: gamestation_db_user
+      SPRING_DATASOURCE_PASSWORD: 0uKPZxbYA1CLO3bTpNhtQy0a84QLDtQ0
 
   frontend:
     build: ./Frontend/Gamestation
@@ -34,5 +33,5 @@ services:
       - "443:443"
 
 volumes:
-  mysql_data:
-    name: desarrollo_mysql_data
+  pgdata:
+    name: desarrollo_pg_data

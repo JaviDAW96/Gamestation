@@ -40,6 +40,7 @@ public class PostController {
     @PostMapping
     @PreAuthorize("hasRole('analista')")
     public PostDTO createPost(@RequestBody PostDTO dto) {
+        dto.setId(null); // Fuerza que el id sea null al crear
         return postService.create(dto);
     }
 

@@ -3,15 +3,13 @@ package com.example.demo.service;
 import java.util.List;
 
 
-import org.springframework.security.core.userdetails.UserDetailsService;
-
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.dto.UsuarioDTO;
 
 
 @Service
-public interface UsuarioService extends UserDetailsService {
+public interface UsuarioService  {
 
         /**
      * Registra un nuevo usuario y devuelve su DTO

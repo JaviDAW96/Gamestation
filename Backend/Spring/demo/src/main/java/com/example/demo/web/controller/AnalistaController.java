@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin // O especifica origins si quieres
 @RestController
 @RequestMapping("/api/analistas")
 @RequiredArgsConstructor
@@ -25,8 +26,12 @@ public class AnalistaController {
 
     /** Leer uno */
     @GetMapping("/{id}")
-    public ResponseEntity<AnalistaDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(service.findById(id));
+    public ResponseEntity<AnalistaDTO> getAnalista(@PathVariable Long id) {
+        AnalistaDTO dto = service.findById(id);
+        if (dto == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(dto);
     }
 
     /** Actualizar */
@@ -41,4 +46,13 @@ public class AnalistaController {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/usuario/{idUsuario}")
+public ResponseEntity<AnalistaDTO> getByUsuarioId(@PathVariable Long idUsuario) {
+    AnalistaDTO dto = service.findByUsuarioId(idUsuario); // <-- usa este método
+    if (dto == null) {
+        return ResponseEntity.notFound().build();
+    }
+    return ResponseEntity.ok(dto);
+}
 }

@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class JwtUtil {
 
-    // Clave secreta para firmar y verificar los tokens JWT (¡No uses una clave simple en producción!)
+    // Clave secreta para firmar y verificar los tokens JWT 
     private static final String SECRET = "MiClaveSecretaSuperSeguraYDeAlMenos256Bits";
 
     // Objeto clave generado a partir de la clave secreta

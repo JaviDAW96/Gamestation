@@ -1,13 +1,50 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { Post } from '../interfaces/Post';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { Location } from '@angular/common';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-post-list',
-  imports: [CommonModule],
   templateUrl: './post-list-component.html',
-  styleUrl: './post-list-component.css'
+  styleUrls: ['./post-list-component.css'],
+  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  standalone: true  
 })
-export class PostListComponent {
-@Input() items: Post[] = [];
+export class PostListComponent implements OnChanges, OnInit {
+  @Input() items: Post[] = [];
+  @Input() soloColumna = false;
+
+  noticiasGrandes: Post[] = [];
+  noticiasPequenas: Post[] = [];
+  analisisDestacados: Post[] = [];
+  articulosDestacados: Post[] = [];
+
+  currentUserId: number | null = null;
+  esAnalista: boolean = false;
+
+  constructor(private location: Location, private authService: AuthService) {}
+
+  ngOnInit() {
+    this.currentUserId = this.authService.getCurrentUserId();
+    this.esAnalista = this.authService.isAnalista?.() ?? false; // Ajusta según tu AuthService
+  }
+
+  ngOnChanges() {
+    // Filtra noticias y destacados
+    const noticias = this.items.filter(i => i.tipo === 'noticia');
+    this.noticiasGrandes = noticias.slice(0, 2);
+    this.noticiasPequenas = noticias.slice(2, 5);
+
+    this.analisisDestacados = this.items
+      .filter(i => i.tipo === 'analisis')
+      .slice(0, 3);
+
+    this.articulosDestacados = this.items
+      .filter(i => i.tipo === 'articulo')
+      .slice(0, 3);
+  }
 }
+

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class LoginDTO {
     @NotBlank
-    private String nombre;
+    private String email;
 
     @NotBlank
     @Size(min = 6)

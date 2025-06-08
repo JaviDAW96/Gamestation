@@ -1,10 +1,8 @@
-
-
 <div class="main-wrapper d-flex flex-column min-vh-100">
-  <app-header></app-header>
   <div class="flex-grow-1 d-flex justify-content-center align-items-center bg-light">
-    <div class="card card-electric shadow-sm p-4" style="max-width: 500px; width: 100%;">
-      <h3 class="text-center mb-4" style="color: var(--electric-blue);">Crear Cuenta</h3>
+    <div class="card card-electric shadow-sm p-4"
+         style="max-width: 500px; width: 100%; border: 2.5px solid var(--electric-blue);">
+      <h3 class="text-center mb-4">Crear Cuenta</h3>
       
       <!-- Formulario centrado y con espaciado -->
       <form 
@@ -124,6 +122,46 @@
           </div>
         </div>
 
+        <!-- DNI -->
+        <div class="d-flex flex-column">
+          <label for="dni" class="form-label">DNI</label>
+          <input
+            type="text"
+            id="dni"
+            class="form-control"
+            formControlName="dni"
+            placeholder="Tu DNI"
+          />
+          <div 
+            *ngIf="registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid" 
+            class="text-danger small mt-1"
+          >
+            <div *ngIf="registroForm.get('dni')?.errors?.['required']">
+              El DNI es obligatorio.
+            </div>
+          </div>
+        </div>
+
+        <!-- Fecha de nacimiento -->
+        <div class="d-flex flex-column">
+          <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+          <input
+            type="date"
+            id="fecha_nacimiento"
+            class="form-control"
+            formControlName="fecha_nacimiento"
+            placeholder="Fecha de nacimiento"
+          />
+          <div 
+            *ngIf="registroForm.get('fecha_nacimiento')?.touched && registroForm.get('fecha_nacimiento')?.invalid" 
+            class="text-danger small mt-1"
+          >
+            <div *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']">
+              La fecha de nacimiento es obligatoria.
+            </div>
+          </div>
+        </div>
+
         <!-- Botón de envío -->
         <button 
           type="submit" 
@@ -142,5 +180,4 @@
       </p>
     </div>
   </div>
-  <app-footer></app-footer>
 </div>

@@ -4,6 +4,7 @@ import com.example.demo.repository.entity.Analista;
 import lombok.Builder;
 import lombok.Data;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,6 +17,8 @@ public class AnalistaDTO {
     private String descripcion;
     private String experienciaLaboral;
     private Integer noticiasPublicadas;
+    private UsuarioDTO usuario;
+    private List<PostDTO> posts;
 
     public static AnalistaDTO convertToDTO(Analista entity) {
         if (entity == null) return null;
@@ -24,6 +27,18 @@ public class AnalistaDTO {
                 .descripcion(entity.getDescripcion())
                 .experienciaLaboral(entity.getExperienciaLaboral())
                 .noticiasPublicadas(entity.getNoticiasPublicadas())
+                .build();
+    }
+
+    public static AnalistaDTO convertToDTO(Analista entity, UsuarioDTO usuario, List<PostDTO> posts) {
+        if (entity == null) return null;
+        return AnalistaDTO.builder()
+                .id(entity.getId())
+                .descripcion(entity.getDescripcion())
+                .experienciaLaboral(entity.getExperienciaLaboral())
+                .noticiasPublicadas(entity.getNoticiasPublicadas())
+                .usuario(usuario)
+                .posts(posts)
                 .build();
     }
 

@@ -1,6 +1,5 @@
 package com.example.demo.service;
 
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,6 +26,7 @@ import com.example.demo.utils.JwtUtil;
  */
 @Service
 public class AuthService {
+    private static final org.slf4j.Logger log = org.slf4j.LoggerFactory.getLogger(AuthService.class);
     // Permite autenticar usuarios (login)
     @Autowired private AuthenticationManager authManager;
     // Utilidad para crear y validar tokens JWT
@@ -57,8 +57,10 @@ public class AuthService {
         Usuario usuario = new Usuario();
         usuario.setNombre(dto.getNombre());
         usuario.setEmail(dto.getEmail());
-        // Encripta la contraseña antes de guardarla
         usuario.setPassword(passwordEncoder.encode(dto.getPassword()));
+        usuario.setApellidos(dto.getApellidos()); // <-- Añade esto
+        usuario.setDni(dto.getDni());             // <-- Añade esto
+        usuario.setFechaNacimiento(dto.getFechaNacimiento()); // <-- Corregido el nombre del método
 
         // Determina el rol a asignar (por defecto "usuario")
 
@@ -89,50 +91,28 @@ public class AuthService {
      * - Devuelve los datos del usuario y el token.
      */
     public AuthResponseDTO login(LoginDTO dto) {
-        // Primero intenta buscar el usuario por email (ya que el email es único)
-        Usuario usuario = userRepo.findByEmail(dto.getNombre())
-            .orElseGet(() -> {
-                // Si no lo encuentra por email, busca por nombre de usuario
-                // Puede haber varios usuarios con el mismo nombre, así que obtenemos una lista
-                List<Usuario> usuarios = userRepo.findAllByNombre(dto.getNombre());
-                if (usuarios.size() == 1) {
-                    // Si solo hay uno, lo usamos
-                    return usuarios.get(0);
-                } else if (usuarios.size() > 1) {
-                    // Si hay más de uno, lanzamos un error para que el usuario use su email
-                    throw new RuntimeException("Hay más de un usuario con ese nombre. Usa tu email para iniciar sesión.");
-                } else {
-                    // Si no hay ninguno, devolvemos null
-                    return null;
-                }
-            });
+        log.info("Intentando login con email: {}", dto.getEmail()); // <-- Añade aquí
 
-        // Si no se encontró ningún usuario, lanzamos un error
-        if (usuario == null) {
-            throw new RuntimeException("Usuario no encontrado");
-        }
+        // Busca solo por email
+        Usuario usuario = userRepo.findByEmail(dto.getEmail())
+            .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        // Autenticamos al usuario usando su email y la contraseña que ha introducido
-        // Spring Security comprobará que la contraseña es correcta (comparando el hash)
+        // Autentica usando email y password
         Authentication auth = authManager.authenticate(
             new UsernamePasswordAuthenticationToken(usuario.getEmail(), dto.getPassword())
         );
 
-        // Obtenemos los detalles del usuario autenticado
         UserDetails ud = (UserDetails) auth.getPrincipal();
-        // Generamos un token JWT para este usuario
         String token = jwtUtil.generateToken(ud.getUsername());
 
-        // Convertimos el usuario y el rol a DTOs para devolverlos al frontend
         UsuarioDTO userDto = UsuarioDTO.convertToDTO(usuario);
         RolDTO rolDto = RolDTO.convertToDTO(usuario.getRol());
 
-        // Devolvemos el token, el usuario y el rol en la respuesta
         return AuthResponseDTO.builder()
                 .token(token)
                 .usuario(userDto)
                 .rol(rolDto)
-                .nombre(usuario.getNombre()) // <-- Añade esto
+                .nombre(usuario.getNombre())
                 .build();
     }
 }

@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .collect(Collectors.toMap(f -> f.getField(), FieldError::getDefaultMessage));
-        // Devuelve el mapa de errores al frontend con estado 400
+        // Devuelve el mapa de errores al frontend with estado 400
         return ResponseEntity.badRequest().body(errors);
     }
 
@@ -39,7 +39,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleAll(Exception ex) {
-        // Aquí podrías registrar el error en un log con logger.error(...)
+        ex.printStackTrace(); // <-- Añade esta línea para ver el error real en consola
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body("Error interno del servidor: " + ex.getMessage());
     }

@@ -1,0 +1,40 @@
+<div class="container py-5 d-flex justify-content-center align-items-center min-vh-100 bg-light">
+  
+  <div class="card shadow-lg border-primary" style="max-width: 700px; width: 100%;">
+    
+    <div class="card-body">
+        <button type="button" class="btn btn-outline-secondary mb-4" (click)="volver()">
+          &larr; Volver
+        </button>
+      <!-- Portada grande arriba -->
+      <div *ngIf="post?.portada?.url" class="mb-4 text-center">
+        <img [src]="post.portada.url" alt="Portada del post" class="img-fluid rounded" style="max-height: 320px; object-fit: cover;">
+      </div>
+      <h2 class="card-title text-center mb-3 text-primary">{{ post?.titulo }}</h2>
+      <h5 class="card-subtitle text-center mb-4 text-muted">{{ post?.subtitulo }}</h5>
+      <p class="fw-bold mb-1">Descripción:</p>
+      <p class="mb-3">{{ post?.descripcion }}</p>
+      <p class="fw-bold mb-1">Contenido:</p>
+      <div class="mb-4" *ngIf="post?.contenido as contenido">
+        <ng-container *ngFor="let parrafo of getParrafos(contenido); let i = index">
+          <p>{{ parrafo }}</p>
+          <!-- Muestra la imagen justo después del primer párrafo -->
+          <div *ngIf="i === 0 && post?.imagenContenido1?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido1.url" alt="Imagen de contenido 1" class="img-fluid rounded" style="max-height: 220px; object-fit: cover;">
+          </div>
+          <div *ngIf="i === 1 && post?.imagenContenido2?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido2.url" alt="Imagen de contenido 2" class="img-fluid rounded" style="max-height: 220px; object-fit: cover;">
+          </div>
+          <div *ngIf="i === 2 && post?.imagenContenido3?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido3.url" alt="Imagen de contenido 3" class="img-fluid rounded" style="max-height: 220px; object-fit: cover;">
+          </div>
+          <!-- Aquí podrías mostrar más imágenes si las tienes -->
+        </ng-container>
+      </div>
+      <div class="mb-3">
+        <span class="badge bg-primary me-2">{{ post?.tipo | titlecase }}</span>
+        <span class="badge bg-secondary">Publicado: {{ post?.fechaPublicacion | date:'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+  </div>
+</div>

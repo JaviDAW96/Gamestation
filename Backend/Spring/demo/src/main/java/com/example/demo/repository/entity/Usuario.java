@@ -2,6 +2,7 @@ package com.example.demo.repository.entity;
 
 import lombok.*;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,28 +20,32 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 @Entity
 @Table(name = "usuarios")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @EqualsAndHashCode.Include
+    private Long id;
 
     private String nombre;
     private String apellidos;
     private String dni;
+    
+    @Column(name = "email")
     private String email;
+    
     private LocalDate fechaNacimiento;
     private String imagen;
     private String password;
 
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToOne // Muchos usuarios pueden tener el mismo rol
-    @JoinColumn(name = "id_rol") // Esta columna estará en la tabla usuarios
+    @JoinColumn(name = "id_rol")
     @JsonBackReference // Evita la serialización recursiva
     private Rol rol;
 
@@ -48,5 +53,5 @@ public class Usuario {
     @Builder.Default
     private Set<Post> posts = new HashSet<>();
 
-
+    // Lombok generará equals()/hashCode() basados solo en 'id'.
 }
