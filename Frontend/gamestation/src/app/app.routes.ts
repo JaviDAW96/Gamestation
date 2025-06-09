@@ -11,6 +11,9 @@ import { PostDetailComponent } from './post-detail/post-detail.component'; // As
 import { AnalisisComponent } from './analisis/analisis.component'; // <-- Añade esta importación
 import { ArticulosComponent } from './articulos/articulos.component';
 import { NoticiasComponent } from './noticias/noticias.component';
+import { ContactoComponent } from './contacto/contacto.component';
+import { TerminosComponent } from './terminos/terminos.component';
+import { PrivacidadComponent } from './privacidad/privacidad.component';
 
 export const routes: Routes = [
     { path: 'login', component: LoginComponent },
@@ -29,6 +32,9 @@ export const routes: Routes = [
             { path: 'post/crear', component: PostComponent },
             { path: 'post/:id', component: PostDetailComponent },
             { path: 'post/:id/editar', component: PostComponent },
+            { path: 'contacto', component: ContactoComponent },
+            { path: 'terminos', component: TerminosComponent },
+            { path: 'privacidad', component: PrivacidadComponent },
             { path: '', redirectTo: 'home', pathMatch: 'full' },
         ]
     },

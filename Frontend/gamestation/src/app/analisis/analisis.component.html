@@ -4,7 +4,22 @@
   <button class="btn btn-outline-secondary mb-3" routerLink="/home">
     &larr; Volver
   </button>
-  <h2 class="mb-4">Todos los análisis</h2>
+  <h2 class="mb-4 seccion-destacada-titulo">Todos los análisis</h2>
+
+  <!-- Barra de búsqueda -->
+  <div class="input-group mb-3">
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Buscar..."
+      [formControl]="busquedaControl"
+      (keyup.enter)="buscar()"
+    />
+    <button class="btn btn-outline-secondary" type="button" (click)="buscar()">
+      <i class="bi bi-search"></i>
+    </button>
+  </div>
+
   <div class="row g-4">
     <div class="col-md-6" *ngFor="let analisis of analisisPaginados">
       <div class="card shadow-lg border-0 h-100 position-relative overflow-hidden">

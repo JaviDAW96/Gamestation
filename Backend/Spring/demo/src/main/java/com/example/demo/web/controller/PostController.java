@@ -64,14 +64,6 @@ public class PostController {
     }
 
     /**
-     * Obtiene un post por su ID
-     */
-    @GetMapping("/{id}")
-    public PostDTO getPost(@PathVariable Long id) {
-        return postService.findById(id);
-    }
-
-    /**
      * Incrementa likes para un post (rol USER)
      */
     @PostMapping("/{id}/like")
@@ -79,5 +71,23 @@ public class PostController {
     public ResponseEntity<?> likePost(@PathVariable Long id) {
         postService.incrementLikes(id);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * Busca posts por query y tipo (opcional)
+     */
+    @GetMapping("/search")
+    public ResponseEntity<List<PostDTO>> search(
+            @RequestParam("q") String q,
+            @RequestParam(value = "tipo", required = false) String tipo) {
+        return ResponseEntity.ok(postService.search(q, tipo));
+    }
+
+    /**
+     * Obtiene un post por su ID
+     */
+    @GetMapping("/{id}")
+    public PostDTO getPost(@PathVariable Long id) {
+        return postService.findById(id);
     }
 }

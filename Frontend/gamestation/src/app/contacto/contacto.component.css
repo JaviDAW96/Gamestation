@@ -1,0 +1,58 @@
+.btn-volver {
+  width: fit-content;
+  min-width: 120px;
+  align-self: flex-start;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+  .contacto-bg {
+    background: linear-gradient(135deg, #0099ff 0%, #005fa3 100%) !important;
+    min-height: 100vh;
+    width: 100vw;
+  }
+
+  /* Centrado vertical y horizontal */
+  .min-vh-100 {
+    min-height: 100vh !important;
+  }
+
+  /* Card y colores */
+  .card {
+    border-radius: 1.5rem !important;
+    border: none;
+  }
+
+  .text-electric-blue {
+    color: #00aaff !important;
+  }
+
+  .btn-electric-blue {
+    background: linear-gradient(90deg, #00aaff 60%, #0077cc 100%);
+    color: #fff;
+    border: none;
+    border-radius: 0.7rem;
+    box-shadow: 0 2px 8px rgba(0, 170, 255, 0.08);
+    transition: background 0.2s;
+  }
+  .btn-electric-blue:hover,
+  .btn-electric-blue:focus {
+    background: linear-gradient(90deg, #0077cc 60%, #00aaff 100%);
+    color: #fff;
+  }
+
+  .border-electric-blue {
+    border: 2px solid #00aaff !important;
+    border-radius: 0.7rem !important;
+    box-shadow: 0 1px 4px rgba(0, 170, 255, 0.04);
+  }
+
+  .contacto-img-bg {
+    background: #001f2f;
+  }
+
+  @media (max-width: 767px) {
+    .contacto-img-bg {
+      display: none !important;
+    }
+  }

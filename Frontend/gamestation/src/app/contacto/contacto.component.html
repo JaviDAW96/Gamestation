@@ -1,0 +1,129 @@
+<div
+  class="contacto-bg d-flex align-items-center justify-content-center min-vh-100"
+>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-10 col-lg-8">
+        <div class="card shadow-lg border-0 overflow-hidden">
+          <div class="row g-0">
+            <!-- Imagen llamativa -->
+            <div class="col-md-5 d-none d-md-block contacto-img-bg">
+              <img
+                src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749452954/Videojuegos_oqlgju.jpg"
+                alt="Videojuegos"
+                class="img-fluid h-100 w-100 object-fit-cover"
+                style="min-height: 100%; object-fit: cover"
+              />
+            </div>
+            <!-- Formulario -->
+            <div class="col-md-7 bg-white">
+              <div class="p-4 h-100 d-flex flex-column justify-content-center">
+                <!-- Botón volver -->
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary mb-3 btn-volver"
+                  (click)="volver()"
+                >
+                  &larr; Volver
+                </button>
+                <h2 class="mb-3 text-center text-electric-blue fw-bold">
+                  ¡Contáctanos!
+                </h2>
+                <p class="text-center text-secondary mb-4">
+                  ¿Tienes dudas, sugerencias o necesitas ayuda? Rellena el
+                  formulario y nuestro equipo te responderá lo antes posible.
+                </p>
+                <form [formGroup]="contactForm" (ngSubmit)="enviarFormulario()">
+                  <div class="mb-3">
+                    <label
+                      for="nombre"
+                      class="form-label fw-semibold text-electric-blue"
+                      >Nombre</label
+                    >
+                    <input
+                      type="text"
+                      class="form-control border-electric-blue"
+                      id="nombre"
+                      formControlName="nombre"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        contactForm.get('nombre')?.touched &&
+                        contactForm.get('nombre')?.invalid
+                      "
+                      class="text-danger small mt-1"
+                    >
+                      El nombre es obligatorio.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="correo"
+                      class="form-label fw-semibold text-electric-blue"
+                      >Correo electrónico</label
+                    >
+                    <input
+                      type="email"
+                      class="form-control border-electric-blue"
+                      id="correo"
+                      formControlName="correo"
+                      required
+                    />
+                    <div
+                      *ngIf="
+                        contactForm.get('correo')?.touched &&
+                        contactForm.get('correo')?.invalid
+                      "
+                      class="text-danger small mt-1"
+                    >
+                      Introduce un correo válido.
+                    </div>
+                  </div>
+                  <div class="mb-3">
+                    <label
+                      for="datos"
+                      class="form-label fw-semibold text-electric-blue"
+                      >Mensaje</label
+                    >
+                    <textarea
+                      class="form-control border-electric-blue"
+                      id="datos"
+                      formControlName="datos"
+                      rows="5"
+                      required
+                    ></textarea>
+                    <div
+                      *ngIf="
+                        contactForm.get('datos')?.touched &&
+                        contactForm.get('datos')?.invalid
+                      "
+                      class="text-danger small mt-1"
+                    >
+                      El mensaje es obligatorio.
+                    </div>
+                  </div>
+                  <button
+                    type="submit"
+                    class="btn btn-electric-blue w-100 fw-bold"
+                    [disabled]="contactForm.invalid"
+                  >
+                    Enviar
+                  </button>
+                </form>
+                <div
+                  *ngIf="mensajeEnviado"
+                  class="alert alert-success mt-4 text-center"
+                >
+                  Hemos recibido su solicitud, cuando nuestros técnicos estén
+                  disponibles se pondrán en contacto con usted en breve!<br />
+                  <strong>Gracias por contactar con GameStation</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

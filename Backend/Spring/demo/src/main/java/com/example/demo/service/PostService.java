@@ -12,4 +12,6 @@ public interface PostService {
     void delete(Long id);
     void incrementLikes(Long id);
     List<PostDTO> findAllByTipo(String tipo);
+
+    List<PostDTO> search(String q, String tipo);
 }

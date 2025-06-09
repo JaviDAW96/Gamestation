@@ -1,0 +1,8 @@
+.privacidad-bg {
+  min-height: 100vh;
+    background: linear-gradient(90deg, #0077cc 60%, #00aaff 100%);
+}
+.card {
+  border-radius: 1.2rem !important;
+  background: #fff;
+}

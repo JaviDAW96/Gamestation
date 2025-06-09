@@ -3,18 +3,31 @@
   <p>Cargando post…</p>
 </div>
 
-<div *ngIf="!cargando" class="post-bg d-flex justify-content-center align-items-center min-vh-100">
-  <div class="card post-card shadow-lg p-4" style="max-width: 600px; width: 100%; border: 3px solid #00aaff;">
+<div
+  *ngIf="!cargando"
+  class="post-bg d-flex justify-content-center align-items-center min-vh-100"
+  style="padding-top: 40px; padding-bottom: 40px;"
+>
+  <div
+    class="card post-card shadow-lg p-4"
+    style="max-width: 600px; width: 100%; border: 3px solid #00aaff"
+  >
     <div class="card-body">
-
       <!-- Botón volver gris arriba a la izquierda -->
       <div class="mb-3">
-        <button type="button" class="btn btn-outline-secondary" (click)="volver()">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="volver()"
+        >
           &larr; Volver
         </button>
       </div>
 
-      <h2 class="card-title text-center mb-4" *ngIf="modoEdicion; else nuevaTpl">
+      <h2
+        class="card-title text-center mb-4"
+        *ngIf="modoEdicion; else nuevaTpl"
+      >
         Editar Post
       </h2>
       <ng-template #nuevaTpl>
@@ -26,7 +39,12 @@
         <div class="mb-3">
           <label class="form-label fw-bold">Título</label>
           <input class="form-control" formControlName="titulo" />
-          <div *ngIf="postForm.get('titulo')?.touched && postForm.get('titulo')?.invalid" class="text-danger small mt-1">
+          <div
+            *ngIf="
+              postForm.get('titulo')?.touched && postForm.get('titulo')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
             <div *ngIf="postForm.get('titulo')?.errors?.['required']">
               El título es obligatorio.
             </div>
@@ -43,7 +61,13 @@
         <div class="mb-3">
           <label class="form-label fw-bold">Descripción</label>
           <input class="form-control" formControlName="descripcion" />
-          <div *ngIf="postForm.get('descripcion')?.touched && postForm.get('descripcion')?.invalid" class="text-danger small mt-1">
+          <div
+            *ngIf="
+              postForm.get('descripcion')?.touched &&
+              postForm.get('descripcion')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
             <div *ngIf="postForm.get('descripcion')?.errors?.['required']">
               La descripción es obligatoria.
             </div>
@@ -53,13 +77,29 @@
         <!-- Contenido -->
         <div class="mb-3">
           <label class="form-label fw-bold">Contenido</label>
-          <textarea class="form-control" formControlName="contenido" rows="8" style="min-height: 200px;"></textarea>
-          <div *ngIf="postForm.get('contenido')?.touched && postForm.get('contenido')?.invalid" class="text-danger small mt-1">
+          <textarea
+            class="form-control"
+            formControlName="contenido"
+            rows="8"
+            style="min-height: 200px"
+          ></textarea>
+          <div
+            *ngIf="
+              postForm.get('contenido')?.touched &&
+              postForm.get('contenido')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
             <div *ngIf="postForm.get('contenido')?.errors?.['required']">
               El contenido es obligatorio.
             </div>
             <div *ngIf="postForm.get('contenido')?.errors?.['minlength']">
-              El contenido debe tener al menos {{ postForm.get('contenido')?.errors?.['minlength']?.requiredLength }} caracteres.
+              El contenido debe tener al menos
+              {{ postForm.get('contenido')?.errors?.['minlength']?.requiredLength }}
+              caracteres.
+            </div>
+            <div *ngIf="postForm.get('contenido')?.errors?.['maxlength']">
+              El contenido no puede superar los 5000 caracteres.
             </div>
           </div>
         </div>
@@ -67,8 +107,20 @@
         <!-- Fecha de publicación -->
         <div class="mb-3">
           <label class="form-label fw-bold">Fecha de publicación</label>
-          <input class="form-control" formControlName="fechaPublicacion" type="date" />
-          <div *ngIf="postForm.get('fechaPublicacion')?.touched && postForm.get('fechaPublicacion')?.invalid" class="text-danger small mt-1">
+          <input
+            class="form-control"
+            formControlName="fechaPublicacion"
+            type="date"
+            [readonly]="!modoEdicion"
+            [disabled]="!modoEdicion"
+          />
+          <div
+            *ngIf="
+              postForm.get('fechaPublicacion')?.touched &&
+              postForm.get('fechaPublicacion')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
             <div *ngIf="postForm.get('fechaPublicacion')?.errors?.['required']">
               La fecha de publicación es obligatoria.
             </div>
@@ -81,7 +133,12 @@
           <select class="form-select" formControlName="tipo">
             <option *ngFor="let t of tipos" [value]="t">{{ t }}</option>
           </select>
-          <div *ngIf="postForm.get('tipo')?.touched && postForm.get('tipo')?.invalid" class="text-danger small mt-1">
+          <div
+            *ngIf="
+              postForm.get('tipo')?.touched && postForm.get('tipo')?.invalid
+            "
+            class="text-danger small mt-1"
+          >
             <div *ngIf="postForm.get('tipo')?.errors?.['required']">
               El tipo es obligatorio.
             </div>
@@ -89,57 +146,126 @@
         </div>
 
         <!-- Imágenes -->
-        <div class="mb-3">
-          <label class="form-label fw-bold">Imágenes (máx. 5, subidas a Cloudinary)</label>
-          <input class="form-control" type="file" (change)="onFileChange($event)" multiple accept="image/*" />
-          <div class="form-text">Las imágenes se subirán automáticamente a Cloudinary. Puedes seleccionar hasta 3 imágenes.</div>
-          <div class="mt-2 d-flex gap-2">
-            <div *ngFor="let img of imagenesPreview; let i = index" style="position:relative;">
-              <img [src]="img" style="max-width: 150px; max-height: 150px; border:1px solid #00aaff; border-radius: 8px;">
-              <button type="button" (click)="eliminarImagen(i)" style="position:absolute;top:2px;right:2px;" class="btn btn-sm btn-danger">×</button>
-              <select class="form-select mt-2"
-                      [value]="rolesImagenes[i]"
-                      (change)="onRolChange(i, $event)"
-                      name="rolImagen{{i}}">
-                <option value="miniatura" [disabled]="rolesImagenes.includes('miniatura') && rolesImagenes[i] !== 'miniatura'">Miniatura</option>
-                <option value="portada" [disabled]="rolesImagenes.includes('portada') && rolesImagenes[i] !== 'portada'">Portada</option>
-                <option value="contenido1" [disabled]="rolesImagenes.includes('contenido1') && rolesImagenes[i] !== 'contenido1'">Imagen de contenido 1</option>
-                <option value="contenido2" [disabled]="rolesImagenes.includes('contenido2') && rolesImagenes[i] !== 'contenido2'">Imagen de contenido 2</option>
-                <option value="contenido3" [disabled]="rolesImagenes.includes('contenido3') && rolesImagenes[i] !== 'contenido3'">Imagen de contenido 3</option>
-              </select>
-            </div>
-          </div>
-          <div *ngIf="postForm.errors?.['imagenesRequired'] && postForm.touched" class="text-danger small mt-1">
+        <div formArrayName="imagenes" class="mb-3">
+          <label class="form-label fw-bold">
+            Imágenes
+            <span *ngIf="postForm.get('tipo')?.value === 'noticia'"
+              >(máx. 3, subidas a Cloudinary)</span
+            >
+            <span *ngIf="postForm.get('tipo')?.value !== 'noticia'"
+              >(máx. 5, subidas a Cloudinary)</span
+            >
+          </label>
+          <input
+            type="file"
+            multiple
+            (change)="onFileChange($event)"
+            accept="image/*"
+            class="form-control"
+          />
+
+          <div
+            *ngIf="imagenesFA.errors?.['required'] && imagenesFA.touched"
+            class="text-danger"
+          >
             Debes subir al menos una imagen.
+          </div>
+          <div
+            *ngIf="imagenesFA.errors?.['noMiniatura'] && imagenesFA.touched"
+            class="text-danger"
+          >
+            Debes asignar el rol “miniatura” a alguna imagen.
+          </div>
+          <div
+            *ngIf="imagenesFA.errors?.['duplicateRoles'] && imagenesFA.touched"
+            class="text-danger"
+          >
+            No puedes repetir roles en las imágenes.
+          </div>
+
+          <div class="mt-2 imagenes-scroll">
+            <div class="d-flex gap-2 flex-nowrap">
+              <div
+                *ngFor="let imgCtrl of imagenesFA.controls; let i = index"
+                [formGroupName]="i"
+                style="position: relative; display: inline-block"
+              >
+                <img
+                  [src]="imgCtrl.value.url"
+                  style="
+                    max-width: 150px;
+                    border: 1px solid #00aaff;
+                    border-radius: 8px;
+                  "
+                />
+                <button
+                  type="button"
+                  class="btn btn-sm btn-danger"
+                  (click)="eliminarImagen(i)"
+                  style="position: absolute; top: 2px; right: 2px"
+                >
+                  ×
+                </button>
+                <select
+                  formControlName="rol"
+                  class="form-select mt-2"
+                  (change)="onRolChange(i, $event)"
+                >
+                  <option value="">Sin rol</option>
+                  <option value="miniatura">Miniatura</option>
+                  <option value="portada">Portada</option>
+                  <option value="contenido1">Contenido 1</option>
+                  <option value="contenido2">Contenido 2</option>
+                  <option value="contenido3">Contenido 3</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="d-flex justify-content-between align-items-center mt-4">
-          <button type="submit" class="btn btn-primary px-4"
-            [disabled]="postForm.invalid || subiendoImagen || imagenesIds.length !== imagenes.length">
-            {{ modoEdicion ? 'Guardar cambios' : 'Crear post' }}
+          <button
+            type="submit"
+            class="btn btn-primary px-4"
+            [disabled]="postForm.invalid || subiendoImagen"
+          >
+            {{ modoEdicion ? "Guardar cambios" : "Crear post" }}
           </button>
-          <button *ngIf="modoEdicion" type="button" class="btn btn-danger ms-2" (click)="onDelete()">
+          <button
+            *ngIf="modoEdicion"
+            type="button"
+            class="btn btn-danger ms-2"
+            (click)="onDelete()"
+          >
             Eliminar post
           </button>
         </div>
       </form>
 
       <div *ngIf="errorMsg" class="alert alert-danger mt-3">{{ errorMsg }}</div>
+
+      <div *ngIf="!postForm.get('tipo')?.value" class="alert alert-info mt-4">
+        Selecciona el tipo de post antes de rellenar el contenido o subir
+        imágenes.
+      </div>
     </div>
   </div>
 </div>
 
 <style>
-/* Neutro: gris muy claro */
-.post-bg {
-  background: #f5f6fa !important;
-}
+  /* Neutro: gris muy claro */
+  .post-bg {
+    background: #f5f6fa !important;
+  }
 
-/* Electric blue border for the card */
-.post-card {
-  border-radius: 1.2rem !important;
-  border: 3px solid #00aaff !important;
-  background: #fff;
-}
+  /* Electric blue border for the card */
+  .post-card {
+    border-radius: 1.2rem !important;
+    border: 3px solid #00aaff !important;
+    background: #fff;
+  }
 </style>
+
+<script>
+  console.log("FormArray imágenes:", this.imagenesFA.value);
+</script>

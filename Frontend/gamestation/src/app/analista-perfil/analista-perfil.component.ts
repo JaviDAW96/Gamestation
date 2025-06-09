@@ -10,10 +10,12 @@ import { AnalistaService } from '../services/analista.service';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-analista',
-  imports: [CommonModule, HeaderComponent, FooterComponent, RouterModule],
+  imports: [CommonModule, HeaderComponent, FooterComponent, RouterModule, ReactiveFormsModule],
   standalone: true,
   templateUrl: './analista-perfil.component.html',
   styleUrls: ['./analista-perfil.component.css']
@@ -28,6 +30,7 @@ export class AnalistaComponent implements OnInit {
   paginaAnalisis = 1;
   paginaArticulos = 1;
   paginaNoticias = 1;
+  perfilForm!: FormGroup;
 
   constructor(
     private http: HttpClient,
@@ -35,7 +38,8 @@ export class AnalistaComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private analistaService: AnalistaService,
-    private location: Location
+    private location: Location,
+    private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +53,13 @@ export class AnalistaComponent implements OnInit {
         this.articulos = posts.filter(p => p.tipo === 'articulo');
         this.noticias = posts.filter(p => p.tipo === 'noticia');
         this.loading = false;
+
+        // Inicializar el formulario con los datos del analista
+        this.perfilForm = this.fb.group({
+          descripcion: [this.analista.descripcion, Validators.required],
+          experienciaLaboral: [this.analista.experienciaLaboral, Validators.required],
+          noticiasPublicadas: [this.analista.noticiasPublicadas, [Validators.required, Validators.min(0)]],
+        });
       },
       error: () => {
         this.errorMsg = 'Error cargando perfil';
@@ -78,8 +89,59 @@ export class AnalistaComponent implements OnInit {
     return Math.ceil(arr.length / 3);
   }
 
- volver() {
+  volver() {
     this.location.back();
   }
 
+  abrirModalEditarPerfil() {
+
+    this.perfilForm.patchValue({
+      descripcion: this.analista.descripcion,
+      experienciaLaboral: this.analista.experienciaLaboral,
+      noticiasPublicadas: this.analista.noticiasPublicadas,
+    });
+  }
+
+  guardarCambios() {
+    if (this.perfilForm.invalid || !this.analista) return;
+
+    Swal.fire({
+      title: '¿Guardar cambios?',
+      text: '¿Estás seguro de que quieres actualizar tu perfil?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Sí, guardar',
+      cancelButtonText: 'Cancelar'
+    }).then(result => {
+      if (result.isConfirmed) {
+        const datos = this.perfilForm.value;
+        const analistaActualizado = { ...this.analista, ...datos };
+
+        this.analistaService.updateAnalista(this.analista.id, analistaActualizado).subscribe({
+          next: actualizado => {
+            this.analista = actualizado;
+
+            // Cierra el modal de Bootstrap
+            const modal = document.getElementById('editarPerfilModal');
+            if (modal) {
+              // @ts-ignore
+              bootstrap.Modal.getInstance(modal)?.hide();
+            }
+
+            // SweetAlert de éxito
+            Swal.fire({
+              icon: 'success',
+              title: 'Perfil actualizado',
+              text: 'Los cambios se han guardado correctamente',
+              timer: 1800,
+              showConfirmButton: false
+            });
+          },
+          error: () => {
+            Swal.fire('Error', 'No se pudo actualizar el perfil', 'error');
+          }
+        });
+      }
+    });
+  }
 }

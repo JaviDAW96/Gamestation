@@ -18,7 +18,7 @@ import com.example.demo.model.dto.UsuarioDTO;
 import com.example.demo.service.UsuarioService;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
     @Autowired

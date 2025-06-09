@@ -2,6 +2,7 @@ package com.example.demo.repository.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.JoinColumn;
@@ -39,4 +40,7 @@ public class PostMultimedia {
     @MapsId("multimediaId")
     @JoinColumn(name = "multimedia_id")
     private Multimedia multimedia;
+
+    @Column(name = "rol")
+    private String rol;
 }

@@ -53,8 +53,10 @@ public class UsuarioServiceImpl implements UsuarioService {
         Usuario existente = repo.findById(id)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Usuario no encontrado: " + id));
         existente.setNombre(usuarioDTO.getNombre());
+        existente.setApellidos(usuarioDTO.getApellidos());
         existente.setEmail(usuarioDTO.getEmail());
-        // Opcional: actualizar rol u otros campos
+        existente.setImagen(usuarioDTO.getImagen());
+        // Si quieres permitir cambiar la contraseña:
         if (usuarioDTO.getPassword() != null && !usuarioDTO.getPassword().isEmpty()) {
             existente.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
         }

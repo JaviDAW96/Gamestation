@@ -61,6 +61,9 @@ export class AnalistaService {
         return this.http.get<InterfazAnalista>(`${this.apiUrl}/usuario/${userId}`);
     }
 
+    updateAnalista(id: number, analista: InterfazAnalista) {
+        return this.http.put<InterfazAnalista>(`${this.apiUrl}/${id}`, analista);
+    }
 }
 
 

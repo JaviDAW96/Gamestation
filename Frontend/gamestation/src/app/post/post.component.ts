@@ -1,6 +1,6 @@
 // src/app/components/post/post.component.ts
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { Post, PostTipo } from '../../app/interfaces/Post';
 import { PostService } from '../services/posts.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,11 +23,9 @@ export class PostComponent implements OnInit {
   cargando = true;
   errorMsg = '';
   tipos: PostTipo[] = ['analisis', 'articulo', 'noticia'];
-  imagenes: string[] = []; // <-- URLs de Cloudinary
-  imagenesPreview: string[] = [];
-  imagenesIds: number[] = [];
+  imagenes: string[] = [];
   subiendoImagen = false;
-  rolesImagenes: string[] = []; // Inicializa el array
+
 
   constructor(
     private fb: FormBuilder,
@@ -39,17 +37,42 @@ export class PostComponent implements OnInit {
 
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.postForm = this.fb.group({
       titulo: ['', Validators.required],
       subtitulo: [''],
-      contenido: ['', [Validators.required, Validators.minLength(10)]],
       descripcion: ['', Validators.required],
-      fechaPublicacion: ['', Validators.required],
-      tipo: ['', Validators.required]
-    }, { validators: [this.imagenesValidator.bind(this)] });
+      contenido: [{ value: '', disabled: true }, [Validators.required, Validators.minLength(10)]],
+      fechaPublicacion: [{ value: '', disabled: false }, Validators.required],
+      tipo: ['', Validators.required],
+      imagenes: this.fb.array([], [
+        Validators.required,
+        this.miniaturaValidator,
+        this.noDuplicateRolesValidator
+      ])
+    });
 
-    this.cargando = false; // Por defecto, no está cargando
+    // Deshabilita imágenes y contenido hasta que se seleccione tipo
+    this.postForm.get('imagenes')?.disable();
+
+    this.postForm.get('tipo')?.valueChanges.subscribe(tipo => {
+      const contenidoCtrl = this.postForm.get('contenido');
+      const imagenesCtrl = this.postForm.get('imagenes');
+      if (tipo) {
+        contenidoCtrl?.enable({ emitEvent: false });
+        imagenesCtrl?.enable({ emitEvent: false });
+      } else {
+        contenidoCtrl?.disable({ emitEvent: false });
+        imagenesCtrl?.disable({ emitEvent: false });
+      }
+      if (tipo === 'noticia') {
+        contenidoCtrl?.setValidators([Validators.required, Validators.minLength(10), Validators.maxLength(5000)]);
+      } else {
+        contenidoCtrl?.setValidators([Validators.required, Validators.minLength(10)]);
+      }
+      // Fuerza la actualización de validadores y estado
+      contenidoCtrl?.updateValueAndValidity({ onlySelf: true, emitEvent: false });
+    });
 
     this.route.paramMap.subscribe(params => {
       const idParam = params.get('id');
@@ -58,7 +81,13 @@ export class PostComponent implements OnInit {
         this.cargando = true;
         this.postId = +idParam;
         this.loadPost(this.postId);
+        // Habilita el campo en edición
+        this.postForm.get('fechaPublicacion')?.enable();
       } else {
+        // Establece la fecha actual y deshabilita el campo en creación
+        const today = new Date().toISOString().split('T')[0];
+        this.postForm.patchValue({ fechaPublicacion: today });
+        this.postForm.get('fechaPublicacion')?.disable();
         this.modoEdicion = false;
         this.cargando = false;
       }
@@ -73,19 +102,33 @@ export class PostComponent implements OnInit {
           subtitulo: p.subtitulo,
           contenido: p.contenido,
           descripcion: p.descripcion,
-          fechaPublicacion: p.fechaPublicacion,
+          fechaPublicacion: p.fechaPublicacion ? p.fechaPublicacion.split('T')[0] : new Date().toISOString().split('T')[0],
           tipo: p.tipo,
-          id_usuario: p.id_usuario
         });
 
-        // --- Cargar portada como imagen principal ---
-        this.imagenes = [];
-        this.imagenesPreview = [];
-        this.imagenesIds = [];
-        if (p.portada) {
-          this.imagenes = [p.portada.url];
-          this.imagenesPreview = [p.portada.url];
-          this.imagenesIds = [p.portada.id];
+        // Limpia el FormArray
+        this.imagenesFA.clear();
+
+        // Map de roles por id (por compatibilidad con tu backend actual)
+        const rolesPorId: Record<number, string> = {};
+        if (p.miniatura) rolesPorId[p.miniatura.id] = 'miniatura';
+        if (p.portada) rolesPorId[p.portada.id] = 'portada';
+        if (p.imagenContenido1) rolesPorId[p.imagenContenido1.id] = 'contenido1';
+        if (p.imagenContenido2) rolesPorId[p.imagenContenido2.id] = 'contenido2';
+        if (p.imagenContenido3) rolesPorId[p.imagenContenido3.id] = 'contenido3';
+
+        // Añade todas las imágenes al FormArray
+        if (p.imagenes && p.imagenes.length) {
+          p.imagenes.forEach(img => {
+            const id = img.multimediaId;
+            const url = img.multimedia?.url;
+            const rol = img.rol || '';
+            this.imagenesFA.push(this.fb.group({
+              id: [id, Validators.required],
+              url: [url, Validators.required],
+              rol: [rol, Validators.required]
+            }));
+          });
         }
 
         this.cargando = false;
@@ -97,38 +140,44 @@ export class PostComponent implements OnInit {
     });
   }
 
-  private getIdByRol(rol: string): number | null {
-    const idx = this.rolesImagenes.indexOf(rol);
-    return idx !== -1 ? this.imagenesIds[idx] : null;
-  }
 
   onSubmit() {
     if (this.postForm.invalid) {
       this.postForm.markAllAsTouched();
-      Swal.fire({
-        icon: 'error',
-        title: 'Formulario inválido',
-        text: 'Por favor, completa todos los campos obligatorios correctamente.'
-      });
+      Swal.fire('Error', 'Revisa el formulario', 'error');
       return;
     }
-    if (this.subiendoImagen || this.imagenesIds.length !== this.imagenes.length) return;
 
-    const id_usuario = this.authService.getCurrentUserId();
-    if (!id_usuario) {
-      this.errorMsg = 'No se pudo obtener el ID del usuario. Inicia sesión nuevamente.';
-      return;
+    // Habilita temporalmente el campo si está deshabilitado (solo en creación)
+    let wasDisabled = false;
+    const fechaCtrl = this.postForm.get('fechaPublicacion');
+    if (!this.modoEdicion && fechaCtrl?.disabled) {
+      fechaCtrl.enable();
+      wasDisabled = true;
     }
+
+    this.postForm.patchValue({ imagenes: this.imagenesFA.value });
+
+    const imagenesPayload = this.imagenesFA.value as Array<any>;
+    const imagenesFiltradas = imagenesPayload.filter(img => img.id && img.url);
 
     const postData = {
       ...this.postForm.value,
-      usuarioId: id_usuario,
-      miniaturaId: this.getIdByRol('miniatura'),
-      portadaId: this.getIdByRol('portada'),
-      imagenContenido1Id: this.getIdByRol('contenido1'),
-      imagenContenido2Id: this.getIdByRol('contenido2'),
-      imagenContenido3Id: this.getIdByRol('contenido3'),
+      imagenes: imagenesFiltradas.map(img => ({
+        multimediaId: img.id,
+        rol: img.rol ?? ''
+      })),
+      miniaturaId: imagenesFiltradas.find(i => i.rol === 'miniatura')?.id ?? null,
+      portadaId: imagenesFiltradas.find(i => i.rol === 'portada')?.id ?? null,
+      imagenContenido1Id: imagenesFiltradas.find(i => i.rol === 'contenido1')?.id ?? null,
+      imagenContenido2Id: imagenesFiltradas.find(i => i.rol === 'contenido2')?.id ?? null,
+      imagenContenido3Id: imagenesFiltradas.find(i => i.rol === 'contenido3')?.id ?? null,
+      multimediaIds: imagenesFiltradas.map(i => i.id),
+      usuarioId: this.authService.getCurrentUserId ? this.authService.getCurrentUserId() : null
     };
+
+    // Para depuración
+    console.log('Payload enviado al crear/editar post:', JSON.stringify(postData, null, 2));
 
     const peticion$ = this.modoEdicion
       ? this.postService.update(this.postId, postData)
@@ -181,75 +230,106 @@ export class PostComponent implements OnInit {
     this.location.back();
   }
   
-  onFileChange(event: any) {
-    const input = event.target as HTMLInputElement;
-    if (!input.files) return;
+  async onFileChange(event: any) {
+    const files: FileList = event.target.files;
+    if (!files?.length) return;
 
-    let files = Array.from(input.files);
-    const espacioDisponible = 5 - this.imagenes.length;
-    if (espacioDisponible <= 0) return;
+    const tipo = this.postForm.get('tipo')?.value;
+    const maxImagenes = tipo === 'noticia' ? 3 : 5;
 
-    files = files.slice(0, espacioDisponible);
+    if (this.imagenesFA.length + files.length > maxImagenes) {
+      Swal.fire('Límite de imágenes', `Solo puedes subir hasta ${maxImagenes} imágenes para este tipo de post.`, 'warning');
+      return;
+    }
+
     this.subiendoImagen = true;
+    const rolesPorDefecto = ['miniatura', 'portada', 'contenido1', 'contenido2', 'contenido3'];
 
-    for (let file of files) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'unsigned_preset');
+    let uploads = 0;
+    for (let file of Array.from(files)) {
+      const reader = new FileReader();
+      reader.onload = async (e: any) => {
+        const urlPreview = e.target.result as string;
+        // 1. Sube a Cloudinary
+        const cloudinaryData = await this.subirImagenACloudinary(file);
 
-      fetch('https://api.cloudinary.com/v1_1/dr0lc3jsc/image/upload', {
-        method: 'POST',
-        body: formData
-      })
-        .then(res => res.json())
-        .then(data => {
-          const multimedia = {
-            url: data.secure_url,
-            tipoContenido: 'image/jpeg', 
-            nombre: '', 
-            descripcion: '',
-            fechaSubida: new Date().toISOString() 
-          };
-
-          this.postService.createMultimedia(multimedia).subscribe({
-            next: (resp) => {
-              this.imagenes.push(data.secure_url);
-              this.imagenesPreview.push(data.secure_url);
-              this.imagenesIds.push(resp.id); 
-              this.rolesImagenes.push('miniatura'); 
-              this.postForm.updateValueAndValidity();
-              if (this.imagenes.length === this.imagenesPreview.length) {
-                this.subiendoImagen = false;
-              }
+        // 2. Registra en tu backend y obtén el ID de tu BBDD
+        this.postService.uploadImageToBackend({
+          url: cloudinaryData.url,
+          tipoContenido: cloudinaryData.tipo,
+          nombre: cloudinaryData.nombre
+        }).subscribe({
+          next: (backendImg) => {
+            const idxRol = this.imagenesFA.length;
+            this.imagenesFA.push(this.fb.group({
+              id:  [ backendImg.id,  Validators.required ], // <-- ID de tu BBDD
+              url: [ backendImg.url, Validators.required ],
+              rol: [ rolesPorDefecto[idxRol] || '', Validators.required ]
+            }));
+            uploads++;
+            if (uploads === files.length) {
+              this.subiendoImagen = false;
+              this.postForm.markAllAsTouched();
             }
-          });
+          },
+          error: () => {
+            this.subiendoImagen = false;
+            Swal.fire('Error', 'No se pudo registrar la imagen en el servidor', 'error');
+          }
         });
+      };
+      reader.readAsDataURL(file);
     }
   }
 
+
+  async subirImagenACloudinary(file: File): Promise<{ url: string, tipo: string, nombre: string }> {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('upload_preset', 'unsigned_preset');
+
+  const res = await fetch('https://api.cloudinary.com/v1_1/dr0lc3jsc/image/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const data = await res.json();
+  return {
+    url: data.secure_url,
+    tipo: data.resource_type,
+    nombre: data.original_filename
+  };
+}
+
   imagenesValidator(form: FormGroup) {
-    return this.imagenes.length > 0 ? null : { imagenesRequired: true };
+    return form.get('imagenesCount')?.value > 0 ? null : { imagenesRequired: true };
   }
 
+  miniaturaValidator = (control: import('@angular/forms').AbstractControl) => {
+    const fa = control as FormArray;
+    const hasMini = fa.controls.some(ctrl => ctrl.value.rol === 'miniatura');
+    return hasMini ? null : { noMiniatura: true };
+  };
+
+  noDuplicateRolesValidator = (control: import('@angular/forms').AbstractControl) => {
+    const fa = control as FormArray;
+    const roles = fa.controls.map(ctrl => ctrl.value.rol);
+    const unique = new Set(roles.filter(r => r));
+    return unique.size === roles.length ? null : { duplicateRoles: true };
+  };
+
   eliminarImagen(index: number) {
-    this.imagenes.splice(index, 1);
-    this.imagenesPreview.splice(index, 1);
-    this.imagenesIds.splice(index, 1);
-    this.rolesImagenes.splice(index, 1); // Elimina también el rol correspondiente
-    this.postForm.updateValueAndValidity();
-  }
+  this.imagenesFA.removeAt(index);
+  this.postForm.updateValueAndValidity();
+}
 
   onRolChange(index: number, event: Event) {
     const value = (event.target as HTMLSelectElement).value;
-
-    // Si ya existe ese rol en otra imagen, lo quitamos de la anterior
-    const prevIdx = this.rolesImagenes.findIndex((rol, i) => rol === value && i !== index);
-    if (prevIdx !== -1) {
-      this.rolesImagenes[prevIdx] = ''; // O asigna un valor por defecto, o fuerza a elegir otro rol
-    }
-
-    this.rolesImagenes[index] = value;
+    this.imagenesFA.at(index).get('rol')?.setValue(value);
     this.postForm.updateValueAndValidity();
+  }
+
+  get imagenesFA(): FormArray {
+    return this.postForm.get('imagenes') as FormArray;
   }
 }
 

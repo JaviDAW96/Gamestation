@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from "../header/header.component";
 import { FooterComponent } from "../footer/footer.component";
+import { FormControl, ReactiveFormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-noticias',
   standalone: true,
-  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent],
+  imports: [CommonModule, RouterModule, HeaderComponent, FooterComponent, ReactiveFormsModule],
   templateUrl: './noticias.component.html',
   styleUrl: './noticias.component.css'
 })
@@ -19,6 +20,8 @@ export class NoticiasComponent implements OnInit {
   noticiasPage = 1;
   pageSize = 8;
   esAnalista = false;
+  busquedaControl = new FormControl(''); 
+    sinResultados = false; 
 
   constructor(
     private postService: PostService,
@@ -26,10 +29,29 @@ export class NoticiasComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.postService.findAll('noticia').subscribe(data => {
-      this.noticias = data;
-    });
+    this.cargarNoticias();
     this.esAnalista = this.authService.isAnalista?.() ?? false;
+  }
+
+  cargarNoticias(): void {
+    this.postService.findAll('noticia').subscribe((data: Post[]) => {
+      this.noticias = data;
+      this.noticiasPage = 1;
+    });
+  }
+
+  buscar(): void {
+    const query = this.busquedaControl.value?.trim() || '';
+    if (!query) {
+      this.cargarNoticias();
+      this.sinResultados = false;
+      return;
+    }
+    this.postService.search(query, 'noticia').subscribe((posts: Post[]) => {
+      this.noticias = posts;
+      this.noticiasPage = 1;
+      this.sinResultados = posts.length === 0; // <-- Esto es clave
+    });
   }
 
   get noticiasPages(): number[] {

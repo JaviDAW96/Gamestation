@@ -14,6 +14,9 @@ import com.example.demo.repository.dao.EtiquetaRepository;
 import com.example.demo.repository.dao.PostRepository;
 import com.example.demo.repository.dao.ReaccionRepository;
 import com.example.demo.repository.dao.UsuarioRepository;
+import com.example.demo.repository.dao.MultimediaRepository;
+import com.example.demo.repository.dao.AnalistaRepository;
+
 import com.example.demo.repository.entity.Categoria;
 import com.example.demo.repository.entity.Etiqueta;
 import com.example.demo.repository.entity.Post;
@@ -22,8 +25,8 @@ import com.example.demo.repository.entity.PostCategoriaId;
 import com.example.demo.repository.entity.PostEtiqueta;
 import com.example.demo.repository.entity.PostEtiquetaId;
 import com.example.demo.repository.entity.Reaccion;
-import com.example.demo.repository.dao.MultimediaRepository;
-import com.example.demo.repository.dao.AnalistaRepository;
+import com.example.demo.repository.entity.PostMultimedia;
+import com.example.demo.repository.entity.PostMultimediaId;
 
 import lombok.RequiredArgsConstructor;
 
@@ -58,18 +61,11 @@ public class PostServiceImpl implements PostService {
     public PostDTO create(PostDTO dto) {
         Post entity = PostDTO.convertToEntity(
                 dto,
-                usuarioId -> usuarioRepository.findById(usuarioId)
-                        .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + usuarioId)),
-                categoriaId -> categoriaRepo.findById(categoriaId)
-                        .orElseThrow(() -> new RuntimeException("Categoría no encontrada: " + categoriaId)),
-                etiquetaId -> etiquetaRepo.findById(etiquetaId)
-                        .orElseThrow(() -> new RuntimeException("Etiqueta no encontrada: " + etiquetaId)),
-                multimediaId -> {
-                    System.out.println("fetchMultimedia lambda recibe: " + multimediaId);
-                    if (multimediaId == null) return null;
-                    return multimediaRepo.findById(multimediaId)
-                            .orElseThrow(() -> new RuntimeException("Multimedia no encontrada: " + multimediaId));
-                }
+                usuarioId -> usuarioRepository.findById(usuarioId).orElse(null),
+                categoriaId -> categoriaRepo.findById(categoriaId).orElse(null),
+                etiquetaId -> etiquetaRepo.findById(etiquetaId).orElse(null),
+                multimediaId -> multimediaRepo.findById(multimediaId).orElse(null),
+                postId -> postRepo.findById(postId).orElse(null) // <-- aquí
         );
 
         // Guardamos
@@ -101,7 +97,7 @@ public class PostServiceImpl implements PostService {
         post.setFechaPublicacion(dto.getFechaPublicacion());
 
         // — Categorías —
-        // Limpio y dejo que orphanRemoval haga el borrado
+        
         post.getCategorias().clear();
         if (dto.getCategorias() != null) {
             dto.getCategorias().forEach(catDto -> {
@@ -126,6 +122,36 @@ public class PostServiceImpl implements PostService {
                         post,
                         tag);
                 post.getEtiquetas().add(pe);
+            });
+        }
+
+        // — Multimedia —
+        post.getPostMultimedia().clear();
+        if (dto.getMultimediaIds() != null) {
+            dto.getMultimediaIds().forEach(multimediaId -> {
+                var multimedia = multimediaRepo.findById(multimediaId)
+                    .orElseThrow(() -> new RuntimeException("Multimedia no encontrada: " + multimediaId));
+                var pm = new PostMultimedia();
+                var pmId = new PostMultimediaId();
+                pmId.setPostId(post.getId());
+                pmId.setMultimediaId(multimedia.getId());
+                pm.setId(pmId);
+                pm.setPost(post);
+                pm.setMultimedia(multimedia);
+
+                // Busca el rol en el array de imágenes del DTO
+                String rol = null;
+                if (dto.getImagenes() != null) {
+                    var imgDto = dto.getImagenes().stream()
+                        .filter(img -> img.getMultimediaId() != null && img.getMultimediaId().equals(multimediaId))
+                        .findFirst().orElse(null);
+                    if (imgDto != null) {
+                        rol = imgDto.getRol();
+                    }
+                }
+                pm.setRol(rol);
+
+                post.getPostMultimedia().add(pm);
             });
         }
 
@@ -183,6 +209,12 @@ public class PostServiceImpl implements PostService {
             System.out.println("Categorias: " + (p.getCategorias() != null ? p.getCategorias().size() : "null"));
         }
         return posts.stream().map(PostDTO::convertToDTO).toList();
+    }
+
+    @Override
+    public List<PostDTO> search(String q, String tipo) {
+        List<Post> posts = postRepo.searchPosts(q, tipo);
+        return posts.stream().map(PostDTO::convertToDTO).collect(Collectors.toList());
     }
 
 

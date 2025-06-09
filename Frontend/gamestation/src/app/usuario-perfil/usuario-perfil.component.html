@@ -1,55 +1,165 @@
-<!-- src/app/components/usuario/usuario.component.html -->
-<div *ngIf="cargando">
-  <p>Cargando usuario…</p>
+<div *ngIf="cargando" class="d-flex justify-content-center align-items-center" style="min-height: 60vh;">
+  <div class="spinner-border text-primary" role="status">
+    <span class="visually-hidden">Cargando usuario…</span>
+  </div>
 </div>
 
-<div *ngIf="!cargando">
-  <h2 *ngIf="modoEdicion; else nuevaPlantilla">
-    Editar Usuario
-  </h2>
-  <ng-template #nuevaPlantilla>
-    <h2>Crear Nuevo Usuario</h2>
-  </ng-template>
+<div *ngIf="!cargando" class="perfil-viewport">
+  <div class="container py-4">
+    <div class="row justify-content-center align-items-center min-vh-80">
+      <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-lg border-0 rounded-4 p-4 perfil-card">
+          <div class="position-relative mb-4">
+            <!-- Botón de volver, arriba a la izquierda del icono de usuario -->
+            <button type="button"
+                    class="btn btn-outline-secondary position-absolute top-0 start-0"
+                    style="z-index:2; margin-top: 0.5rem; margin-left: 0.5rem;"
+                    (click)="volver()">
+              &larr; Volver
+            </button>
+            <div class="d-flex flex-column align-items-center">
+              <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mb-3" style="width: 110px; height: 110px; overflow: hidden;">
+                <img *ngIf="usuario?.imagen" [src]="usuario?.imagen" alt="Avatar" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+                <i *ngIf="!usuario?.imagen" class="bi bi-person-circle text-white" style="font-size: 4rem;"></i>
+              </div>
+              <h2 class="fw-bold mb-1 text-center">{{ usuario?.nombre }} {{ usuario?.apellidos }}</h2>
+              <p class="text-muted mb-2 text-center">{{ usuario?.email }}</p>
+              <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" (click)="abrirModalEditarUsuario()">
+                <i class="bi bi-pencil-square me-1"></i> Editar perfil
+              </button>
+            </div>
+          </div>
 
-  <form [formGroup]="usuarioForm" (ngSubmit)="onSubmit()">
-    <div>
-      <label>Nombre</label>
-      <input formControlName="nombre" />
-    </div>
-    <div>
-      <label>Apellidos</label>
-      <input formControlName="apellidos" />
-    </div>
-    <div>
-      <label>DNI</label>
-      <input formControlName="dni" />
-    </div>
-    <div>
-      <label>Email</label>
-      <input formControlName="email" type="email" />
-    </div>
-    <div>
-      <label>Fecha nacimiento</label>
-      <input formControlName="fechaNacimiento" type="date" />
-    </div>
-    <div>
-      <label>Imagen (URL)</label>
-      <input formControlName="imagen" />
-    </div>
-    <div *ngIf="!modoEdicion">
-      <label>Password</label>
-      <input formControlName="password" type="password" />
-    </div>
+          <div class="row g-3">
+            <div class="col-12 col-md-6">
+              <label class="perfil-label">Nombre</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.nombre" readonly>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="perfil-label">Apellidos</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.apellidos" readonly>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="perfil-label">DNI</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.dni" readonly>
+            </div>
+            <div class="col-12 col-md-6">
+              <label class="perfil-label">Fecha nacimiento</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.fechaNacimiento | date:'dd/MM/yyyy'" readonly>
+            </div>
+            <div class="col-12">
+              <label class="perfil-label">Email</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.email" readonly>
+            </div>
+            <div class="col-12">
+              <label class="perfil-label">Imagen (URL)</label>
+              <input class="form-control-plaintext perfil-dato" [value]="usuario?.imagen" readonly>
+            </div>
+          </div>
 
-    <div class="botones">
-      <button type="submit" [disabled]="usuarioForm.invalid">
-        {{ modoEdicion ? 'Guardar cambios' : 'Crear usuario' }}
-      </button>
-      <button *ngIf="modoEdicion" type="button" (click)="onDelete()">
-        Eliminar usuario
-      </button>
+          <div *ngIf="errorMsg" class="alert alert-danger mt-4">{{ errorMsg }}</div>
+        </div>
+      </div>
     </div>
-  </form>
-
-  <div *ngIf="errorMsg" class="error">{{ errorMsg }}</div>
+  </div>
 </div>
+
+<!-- Modal de edición de usuario -->
+<div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="usuarioForm" class="modal-content" (ngSubmit)="guardarCambiosUsuario()" *ngIf="usuarioId">
+      <div class="modal-header site-header" style="background-color: var(--bs-primary); color: #fff;">
+        <h5 class="modal-title" id="editarUsuarioLabel">Editar perfil</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Nombre</label>
+          <input class="form-control form-control-lg" formControlName="nombre" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Apellidos</label>
+          <input class="form-control form-control-lg" formControlName="apellidos" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">DNI</label>
+          <input class="form-control form-control-lg" formControlName="dni" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Email</label>
+          <input class="form-control form-control-lg" formControlName="email" type="email" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Fecha nacimiento</label>
+          <input class="form-control form-control-lg" formControlName="fechaNacimiento" type="date" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Imagen (URL)</label>
+          <input class="form-control form-control-lg" formControlName="imagen">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="usuarioForm.invalid">Guardar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+.perfil-viewport {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.perfil-card {
+  background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
+  border-radius: 2rem;
+  border: none;
+}
+.input-group-text {
+  border-radius: 1rem 0 0 1rem !important;
+}
+.form-control-plaintext {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: #222;
+}
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.no-arrow[type="number"] {
+  -moz-appearance: textfield;
+}
+.perfil-label {
+  font-weight: bold;
+  font-size: 1.15rem;
+  color: #222;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.perfil-dato {
+  font-size: 1.1rem;
+  color: #444;
+  padding-left: 0;
+}
+@media (max-width: 768px) {
+  .perfil-card {
+    padding: 1.2rem !important;
+  }
+  .input-group-lg > .form-control-plaintext,
+  .input-group-lg > .input-group-text {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .perfil-viewport {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
+</style>

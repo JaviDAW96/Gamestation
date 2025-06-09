@@ -23,7 +23,10 @@
         <i class="bi bi-newspaper me-1"></i> {{ analista.noticiasPublicadas }} noticias publicadas
       </span>
     </div>
-    <button class="btn btn-outline-primary mt-3" (click)="editarPerfil()">
+    <button class="btn btn-outline-primary mt-3"
+        data-bs-toggle="modal"
+        data-bs-target="#editarPerfilModal"
+        (click)="abrirModalEditarPerfil()">
       <i class="bi bi-pencil-square me-1"></i> Editar perfil
     </button>
   </div>
@@ -34,14 +37,16 @@
       <div class="col-header d-flex justify-content-between align-items-center mb-2">
         <h3 class="mb-0">Análisis</h3>
       </div>
-      <div *ngFor="let post of analisis | slice:(paginaAnalisis-1)*3:(paginaAnalisis-1)*3+3" class="card shadow-lg border-0 mb-4 position-relative overflow-hidden">
+      <div *ngFor="let post of analisis | slice:(paginaAnalisis-1)*3:(paginaAnalisis-1)*3+3"
+           class="card mb-4 position-relative overflow-hidden"
+           style="border: none; background: none; min-height: 340px; box-shadow: none;">
         <img
           [src]="post.miniatura?.url"
-          class="card-img-top object-fit-cover"
-          style="height: 200px;"
           alt="Miniatura análisis"
+          style="width: 100%; height: 340px; object-fit: cover; display: block;"
         />
-        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100">
+        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100"
+             style="min-height: 120px;">
           <h5 class="card-title">{{ post.titulo }}</h5>
           <div class="card-subtitle mb-2">{{ post.subtitulo }}</div>
           <div class="mb-2 small">{{ post.descripcion }}</div>
@@ -73,14 +78,16 @@
       <div class="col-header d-flex justify-content-between align-items-center mb-2">
         <h3 class="mb-0">Artículos</h3>
       </div>
-      <div *ngFor="let post of articulos | slice:(paginaArticulos-1)*3:(paginaArticulos-1)*3+3" class="card shadow-lg border-0 mb-4 position-relative overflow-hidden">
+      <div *ngFor="let post of articulos | slice:(paginaArticulos-1)*3:(paginaArticulos-1)*3+3"
+           class="card mb-4 position-relative overflow-hidden"
+           style="border: none; background: none; min-height: 340px; box-shadow: none;">
         <img
           [src]="post.miniatura?.url"
-          class="card-img-top object-fit-cover"
-          style="height: 200px;"
           alt="Miniatura artículo"
+          style="width: 100%; height: 340px; object-fit: cover; display: block;"
         />
-        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100">
+        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100"
+             style="min-height: 120px;">
           <h5 class="card-title">{{ post.titulo }}</h5>
           <div class="card-subtitle mb-2">{{ post.subtitulo }}</div>
           <div class="mb-2 small">{{ post.descripcion }}</div>
@@ -112,14 +119,16 @@
       <div class="col-header d-flex justify-content-between align-items-center mb-2">
         <h3 class="mb-0">Noticias</h3>
       </div>
-      <div *ngFor="let post of noticias | slice:(paginaNoticias-1)*3:(paginaNoticias-1)*3+3" class="card shadow-lg border-0 mb-4 position-relative overflow-hidden">
+      <div *ngFor="let post of noticias | slice:(paginaNoticias-1)*3:(paginaNoticias-1)*3+3"
+           class="card mb-4 position-relative overflow-hidden"
+           style="border: none; background: none; min-height: 340px; box-shadow: none;">
         <img
           [src]="post.miniatura?.url"
-          class="card-img-top object-fit-cover"
-          style="height: 200px;"
           alt="Miniatura noticia"
+          style="width: 100%; height: 340px; object-fit: cover; display: block;"
         />
-        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100">
+        <div class="card-body bg-dark bg-opacity-75 text-white position-absolute bottom-0 w-100"
+             style="min-height: 120px;">
           <h5 class="card-title">{{ post.titulo }}</h5>
           <div class="card-subtitle mb-2">{{ post.subtitulo }}</div>
           <div class="mb-2 small">{{ post.descripcion }}</div>
@@ -145,6 +154,36 @@
         </ul>
       </nav>
     </div>
+  </div>
+</div>
+
+<!-- Modal de edición de perfil -->
+<div class="modal fade" id="editarPerfilModal" tabindex="-1" aria-labelledby="editarPerfilLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <form [formGroup]="perfilForm" class="modal-content" (ngSubmit)="guardarCambios()" *ngIf="analista">
+      <div class="modal-header site-header" style="background-color: var(--bs-primary); color: #fff;">
+        <h5 class="modal-title" id="editarPerfilLabel">Editar perfil</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-2">
+          <label class="form-label">Descripción</label>
+          <input class="form-control" formControlName="descripcion" required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Experiencia laboral</label>
+          <input class="form-control" formControlName="experienciaLaboral" required>
+        </div>
+        <div class="mb-2">
+          <label class="form-label">Noticias publicadas</label>
+          <input type="number" class="form-control" formControlName="noticiasPublicadas" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="perfilForm.invalid">Guardar</button>
+      </div>
+    </form>
   </div>
 </div>
 

@@ -8,4 +8,5 @@ export interface InterfazUsuario {
   fechaNacimiento: string;
   imagen: string | null;
   password: string;
+  
 }

@@ -18,7 +18,10 @@
 
     <!-- Botones solo si es analista y está logueado -->
     <ng-container *ngIf="isAnalista">
-      <button class="btn btn-primary me-2" routerLink="/post/crear">Crear Post</button>
+      <button class="btn btn-primary me-2" routerLink="/post/crear">
+        <i class="bi bi-plus-circle me-1"></i>
+        Crear Post
+      </button>
     </ng-container>
 
     <!-- Icono de usuario que lleva al perfil -->
