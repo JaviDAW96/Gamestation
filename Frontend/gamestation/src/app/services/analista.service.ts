@@ -4,10 +4,11 @@ import { InterfazAnalista } from '../interfaces/InterfazAnalista';
 import { Observable, forkJoin } from 'rxjs';
 import { Post } from '../interfaces/Post';
 import { PostService } from './posts.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AnalistaService {
-    private apiUrl = 'https://localhost:8080/api/analistas';
+     private baseUrl = `${environment.apiUrl}/analistas`; // Usa la URL del environment
 
     analista?: InterfazAnalista;
     errorMsg?: string;
@@ -23,7 +24,7 @@ export class AnalistaService {
     ) { }
 
    getPerfil(id: number): Observable<InterfazAnalista> {
-    return this.http.get<InterfazAnalista>(`${this.apiUrl}/${id}`);
+    return this.http.get<InterfazAnalista>(`${this.baseUrl}/${id}`);
 }
 
     getPostsPorTipo(usuarioId: number) {
@@ -58,11 +59,11 @@ export class AnalistaService {
     }
 
     getAnalistaPorUsuarioId(userId: number) {
-        return this.http.get<InterfazAnalista>(`${this.apiUrl}/usuario/${userId}`);
+        return this.http.get<InterfazAnalista>(`${this.baseUrl}/usuario/${userId}`);
     }
 
     updateAnalista(id: number, analista: InterfazAnalista) {
-        return this.http.put<InterfazAnalista>(`${this.apiUrl}/${id}`, analista);
+        return this.http.put<InterfazAnalista>(`${this.baseUrl}/${id}`, analista);
     }
 }
 
