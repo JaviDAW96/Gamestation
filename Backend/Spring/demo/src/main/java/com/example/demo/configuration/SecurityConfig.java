@@ -88,15 +88,10 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList(
-            "https://gamestation-frontend-58rf.onrender.com", // Render (producción)
-            "http://localhost:4200", // Angular CLI 
-            "https://localhost:4200", // Angular por HTTPS
-            "https://localhost",          
-            "https://localhost:443",      
-            "https://localhost:8080"
+            "https://gamestation-frontend-58rf.onrender.com"
         ));
-        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type", "X-Requested-With", "Accept"));
+        configuration.setAllowedMethods(Arrays.asList("*")); // Permite todos los métodos
+        configuration.setAllowedHeaders(Arrays.asList("*")); // Permite todos los headers
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
