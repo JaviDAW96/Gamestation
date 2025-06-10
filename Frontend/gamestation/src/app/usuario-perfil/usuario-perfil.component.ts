@@ -139,7 +139,7 @@ export class UsuarioComponent implements OnInit {
   guardarCambiosUsuario() {
     if (this.usuarioForm.invalid || !this.usuario) return;
 
-    const usuarioId = this.usuario.id; 
+    const usuarioId = this.usuario.id;
 
     Swal.fire({
       title: '¿Guardar cambios?',
@@ -151,11 +151,16 @@ export class UsuarioComponent implements OnInit {
     }).then(result => {
       if (result.isConfirmed) {
         const datos = { ...this.usuarioForm.value };
-  
+
+
         if (!datos.password) {
           delete datos.password;
         }
+
         const usuarioActualizado = { ...this.usuario, ...datos };
+        if (!datos.password && 'password' in usuarioActualizado) {
+          delete usuarioActualizado.password;
+        }
 
         this.usuarioService.updateUsuario(usuarioId, usuarioActualizado).subscribe({
           next: actualizado => {
