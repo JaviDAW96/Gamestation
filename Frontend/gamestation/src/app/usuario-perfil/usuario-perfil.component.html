@@ -4,95 +4,63 @@
   </div>
 </div>
 
-<div *ngIf="!cargando" class="perfil-viewport" style="position: relative; min-height: 100vh; overflow: hidden;">
+<div *ngIf="!cargando" class="perfil-viewport d-flex" style="min-height: 100vh; overflow: hidden;">
+  <!-- Imagen lateral izquierda ocupando todo el alto -->
+  <div style="flex: 0 0 38vw; min-width: 320px; max-width: 600px; background: #111;">
+    <img
+      src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749588596/photo-1683137813509-e107c398d02b_axlh4s.avif"
+      alt="Decoración lateral"
+      style="width: 100%; height: 100vh; object-fit: cover; object-position: center;"
+    />
+  </div>
 
-  <!-- Medialuna decorativa izquierda -->
-  <img
-    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749587351/catalonia-video-games-header_frytki.jpg"
-    alt="Decoración lateral izquierda"
-    class="d-none d-md-block"
-    style="
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100vh;
-      width: 480px;
-      border-radius: 0 60% 60% 0 / 0 100% 100% 0;
-      object-fit: cover;
-      box-shadow: 0 0 32px #0002;
-      z-index: 1;
-    "
-  />
-
-  <!-- Medialuna decorativa derecha -->
-  <img
-    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749587351/catalonia-video-games-header_frytki.jpg"
-    alt="Decoración lateral derecha"
-    class="d-none d-md-block"
-    style="
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100vh;
-      width: 480px;
-      border-radius: 60% 0 0 60% / 100% 0 0 100%;
-      object-fit: cover;
-      box-shadow: 0 0 32px #0002;
-      z-index: 1;
-    "
-  />
-
-  <div class="container py-4" style="position: relative; z-index: 2;">
-    <div class="row justify-content-center align-items-center min-vh-80">
-      <div class="col-12 col-md-8 col-lg-6">
-        <div class="card shadow-lg border-0 rounded-4 p-4 perfil-card">
-          <div class="position-relative mb-4">
-
-            <button type="button"
-                    class="btn btn-outline-secondary position-absolute top-0 start-0"
-                    style="z-index:2; margin-top: 0.5rem; margin-left: 0.5rem;"
-                    (click)="volver()">
-              &larr; Volver
-            </button>
-            <div class="d-flex flex-column align-items-center">
-              <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mb-3" style="width: 110px; height: 110px; overflow: hidden;">
-                <img *ngIf="usuario?.imagen" [src]="usuario?.imagen" alt="Avatar" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
-                <i *ngIf="!usuario?.imagen" class="bi bi-person-circle text-white" style="font-size: 4rem;"></i>
-              </div>
-              <h2 class="fw-bold mb-1 text-center">{{ usuario?.nombre }} {{ usuario?.apellidos }}</h2>
-              <p class="text-muted mb-2 text-center">{{ usuario?.email }}</p>
-              <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" (click)="abrirModalEditarUsuario()">
-                <i class="bi bi-pencil-square me-1"></i> Editar perfil
-              </button>
-            </div>
+  <!-- Contenedor principal del perfil -->
+  <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" style="background: #f8f9fa;">
+    <div class="card shadow-lg border-0 rounded-4 p-5 perfil-card" style="max-width: 650px; width: 100%;">
+      <div class="position-relative mb-4">
+        <button type="button"
+                class="btn btn-outline-secondary position-absolute top-0 start-0"
+                style="z-index:2; margin-top: 0.5rem; margin-left: 0.5rem;"
+                (click)="volver()">
+          &larr; Volver
+        </button>
+        <div class="d-flex flex-column align-items-center">
+          <div class="rounded-circle bg-primary d-flex align-items-center justify-content-center mb-3" style="width: 120px; height: 120px; overflow: hidden;">
+            <img *ngIf="usuario?.imagen" [src]="usuario?.imagen" alt="Avatar" class="img-fluid" style="width: 100%; height: 100%; object-fit: cover;">
+            <i *ngIf="!usuario?.imagen" class="bi bi-person-circle text-white" style="font-size: 4rem;"></i>
           </div>
-
-          <div class="row g-3">
-            <div class="col-12 col-md-6">
-              <label class="perfil-label">Nombre</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.nombre" readonly>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="perfil-label">Apellidos</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.apellidos" readonly>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="perfil-label">DNI</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.dni" readonly>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="perfil-label">Fecha nacimiento</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.fechaNacimiento | date:'dd/MM/yyyy'" readonly>
-            </div>
-            <div class="col-12">
-              <label class="perfil-label">Email</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.email" readonly>
-            </div>
-          </div>
-
-          <div *ngIf="errorMsg" class="alert alert-danger mt-4">{{ errorMsg }}</div>
+          <h2 class="fw-bold mb-1 text-center">{{ usuario?.nombre }} {{ usuario?.apellidos }}</h2>
+          <p class="text-muted mb-2 text-center">{{ usuario?.email }}</p>
+          <button class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#editarUsuarioModal" (click)="abrirModalEditarUsuario()">
+            <i class="bi bi-pencil-square me-1"></i> Editar perfil
+          </button>
         </div>
       </div>
+
+      <div class="row g-4">
+        <div class="col-12 col-md-6">
+          <label class="perfil-label fw-bold">Nombre</label>
+          <input class="form-control-plaintext perfil-dato" [value]="usuario?.nombre" readonly>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="perfil-label fw-bold">Apellidos</label>
+          <input class="form-control-plaintext perfil-dato" [value]="usuario?.apellidos" readonly>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="perfil-label fw-bold">DNI</label>
+          <input class="form-control-plaintext perfil-dato" [value]="usuario?.dni" readonly>
+        </div>
+        <div class="col-12 col-md-6">
+          <label class="perfil-label fw-bold">Fecha nacimiento</label>
+          <input class="form-control-plaintext perfil-dato" [value]="usuario?.fechaNacimiento | date:'dd/MM/yyyy'" readonly>
+        </div>
+        <div class="col-12">
+          <label class="perfil-label fw-bold">Email</label>
+          <input class="form-control-plaintext perfil-dato" [value]="usuario?.email" readonly>
+        </div>
+      </div>
+
+      <div *ngIf="errorMsg" class="alert alert-danger mt-4">{{ errorMsg }}</div>
     </div>
   </div>
 </div>
@@ -107,27 +75,27 @@
       </div>
       <div class="modal-body">
         <div class="mb-3">
-          <label class="form-label">Nombre</label>
+          <label class="form-label fw-bold">Nombre</label>
           <input class="form-control form-control-lg" formControlName="nombre" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Apellidos</label>
+          <label class="form-label fw-bold">Apellidos</label>
           <input class="form-control form-control-lg" formControlName="apellidos" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">DNI</label>
+          <label class="form-label fw-bold">DNI</label>
           <input class="form-control form-control-lg" formControlName="dni" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Email</label>
+          <label class="form-label fw-bold">Email</label>
           <input class="form-control form-control-lg" formControlName="email" type="email" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Fecha nacimiento</label>
+          <label class="form-label fw-bold">Fecha nacimiento</label>
           <input class="form-control form-control-lg" formControlName="fechaNacimiento" type="date" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Avatar</label>
+          <label class="form-label fw-bold">Avatar</label>
           <div class="d-flex flex-wrap gap-3">
             <div *ngFor="let avatar of avatarList" class="form-check">
               <input
