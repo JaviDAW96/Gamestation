@@ -4,13 +4,33 @@
   </div>
 </div>
 
-<div *ngIf="!cargando" class="perfil-viewport">
-  <div class="container py-4">
+<div *ngIf="!cargando" class="perfil-viewport" style="position: relative; min-height: 100vh; overflow: hidden;">
+
+  <img
+    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749587351/catalonia-video-games-header_frytki.jpg"
+    alt="Decoración lateral"
+    class="d-none d-md-block"
+    style="
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 480px;
+      border-radius: 0 60% 60% 0 / 0 100% 100% 0;
+      object-fit: cover;
+      box-shadow: 0 0 32px #0002;
+      z-index: 1;
+      transform: scaleX(-1) rotate(-8deg);
+    "
+  />
+
+
+  <div class="container py-4" style="position: relative; z-index: 2;">
     <div class="row justify-content-center align-items-center min-vh-80">
       <div class="col-12 col-md-8 col-lg-6">
         <div class="card shadow-lg border-0 rounded-4 p-4 perfil-card">
           <div class="position-relative mb-4">
-            <!-- Botón de volver, arriba a la izquierda del icono de usuario -->
+
             <button type="button"
                     class="btn btn-outline-secondary position-absolute top-0 start-0"
                     style="z-index:2; margin-top: 0.5rem; margin-left: 0.5rem;"
@@ -114,61 +134,3 @@
     </form>
   </div>
 </div>
-
-<style>
-.perfil-viewport {
-  min-height: 90vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.perfil-card {
-  background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
-  border-radius: 2rem;
-  border: none;
-}
-.input-group-text {
-  border-radius: 1rem 0 0 1rem !important;
-}
-.form-control-plaintext {
-  background: transparent;
-  border: none;
-  font-size: 1.1rem;
-  color: #222;
-}
-.no-arrow::-webkit-inner-spin-button,
-.no-arrow::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-.no-arrow[type="number"] {
-  -moz-appearance: textfield;
-}
-.perfil-label {
-  font-weight: bold;
-  font-size: 1.15rem;
-  color: #222;
-  margin-bottom: 0.2rem;
-  display: block;
-}
-.perfil-dato {
-  font-size: 1.1rem;
-  color: #444;
-  padding-left: 0;
-}
-@media (max-width: 768px) {
-  .perfil-card {
-    padding: 1.2rem !important;
-  }
-  .input-group-lg > .form-control-plaintext,
-  .input-group-lg > .input-group-text {
-    font-size: 1rem;
-    padding: 0.5rem 0.75rem;
-  }
-  .perfil-viewport {
-    min-height: 100vh;
-    padding-top: 2rem;
-    padding-bottom: 2rem;
-  }
-}
-</style>

@@ -1,0 +1,55 @@
+.perfil-viewport {
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.perfil-card {
+  background: linear-gradient(135deg, #f8fafc 60%, #e0e7ff 100%);
+  border-radius: 2rem;
+  border: none;
+}
+.input-group-text {
+  border-radius: 1rem 0 0 1rem !important;
+}
+.form-control-plaintext {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  color: #222;
+}
+.no-arrow::-webkit-inner-spin-button,
+.no-arrow::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.no-arrow[type="number"] {
+  -moz-appearance: textfield;
+}
+.perfil-label {
+  font-weight: bold;
+  font-size: 1.15rem;
+  color: #222;
+  margin-bottom: 0.2rem;
+  display: block;
+}
+.perfil-dato {
+  font-size: 1.1rem;
+  color: #444;
+  padding-left: 0;
+}
+@media (max-width: 768px) {
+  .perfil-card {
+    padding: 1.2rem !important;
+  }
+  .input-group-lg > .form-control-plaintext,
+  .input-group-lg > .input-group-text {
+    font-size: 1rem;
+    padding: 0.5rem 0.75rem;
+  }
+  .perfil-viewport {
+    min-height: 100vh;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+  }
+}
