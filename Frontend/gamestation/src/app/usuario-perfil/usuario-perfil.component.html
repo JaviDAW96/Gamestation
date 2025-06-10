@@ -5,7 +5,7 @@
 </div>
 
 <div *ngIf="!cargando" class="perfil-viewport d-flex" style="min-height: 100vh; background: #f8f9fa; overflow: hidden;">
-  <!-- Imagen lateral izquierda ocupando todo el alto -->
+
   <div style="flex: 0 0 38vw; min-width: 320px; max-width: 600px; background: #111;">
     <img
       src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749588596/photo-1683137813509-e107c398d02b_axlh4s.avif"
@@ -14,9 +14,9 @@
     />
   </div>
 
-  <!-- Contenedor principal del perfil, más grande y sin fondo de tarjeta -->
+
   <div class="d-flex flex-column justify-content-center align-items-center flex-grow-1" style="background: transparent;">
-    <div class="w-100" style="max-width: 900px;">
+    <div class="card shadow-lg border-0 rounded-4 p-5" style="max-width: 900px; width: 100%; background: transparent;">
       <div class="position-relative mb-4">
         <button type="button"
                 class="btn btn-outline-secondary position-absolute top-0 start-0"
@@ -65,7 +65,6 @@
   </div>
 </div>
 
-<!-- Modal de edición de usuario -->
 <div class="modal fade" id="editarUsuarioModal" tabindex="-1" aria-labelledby="editarUsuarioLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
     <form [formGroup]="usuarioForm" class="modal-content" (ngSubmit)="guardarCambiosUsuario()" *ngIf="usuarioId">
