@@ -45,8 +45,7 @@ export class UsuarioComponent implements OnInit {
       dni: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       fechaNacimiento: ['', Validators.required],
-      imagen: [''],
-      password: ['', Validators.required]
+      imagen: ['', Validators.required] 
     });
 
     const idParam = this.route.snapshot.paramMap.get('id');
@@ -127,16 +126,14 @@ export class UsuarioComponent implements OnInit {
   }
 
   abrirModalEditarUsuario() {
-    if (this.usuario) {
-      this.usuarioForm.patchValue({
-        nombre: this.usuario.nombre,
-        apellidos: this.usuario.apellidos,
-        dni: this.usuario.dni,
-        email: this.usuario.email,
-        fechaNacimiento: this.usuario.fechaNacimiento,
-        imagen: this.usuario.imagen
-      });
-    }
+    this.usuarioForm.patchValue({
+      nombre: this.usuario?.nombre || '',
+      apellidos: this.usuario?.apellidos || '',
+      dni: this.usuario?.dni || '',
+      email: this.usuario?.email || '',
+      fechaNacimiento: this.usuario?.fechaNacimiento || '',
+      imagen: this.usuario?.imagen || this.avatarList[0] 
+    });
   }
 
   guardarCambiosUsuario() {

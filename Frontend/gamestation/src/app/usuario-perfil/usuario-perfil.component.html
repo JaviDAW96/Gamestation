@@ -51,10 +51,6 @@
               <label class="perfil-label">Email</label>
               <input class="form-control-plaintext perfil-dato" [value]="usuario?.email" readonly>
             </div>
-            <div class="col-12">
-              <label class="perfil-label">Imagen (URL)</label>
-              <input class="form-control-plaintext perfil-dato" [value]="usuario?.imagen" readonly>
-            </div>
           </div>
 
           <div *ngIf="errorMsg" class="alert alert-danger mt-4">{{ errorMsg }}</div>
