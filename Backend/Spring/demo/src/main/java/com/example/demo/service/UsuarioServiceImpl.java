@@ -56,7 +56,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         existente.setApellidos(usuarioDTO.getApellidos());
         existente.setEmail(usuarioDTO.getEmail());
         existente.setImagen(usuarioDTO.getImagen());
-        // Si quieres permitir cambiar la contraseña:
+ 
         if (usuarioDTO.getPassword() != null && !usuarioDTO.getPassword().isEmpty()) {
             existente.setPassword(passwordEncoder.encode(usuarioDTO.getPassword()));
         }

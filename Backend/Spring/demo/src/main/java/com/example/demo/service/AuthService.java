@@ -91,7 +91,7 @@ public class AuthService {
      * - Devuelve los datos del usuario y el token.
      */
     public AuthResponseDTO login(LoginDTO dto) {
-        log.info("Intentando login con email: {}", dto.getEmail()); // <-- Añade aquí
+        log.info("Intentando login con email: {}", dto.getEmail()); 
 
         // Busca solo por email
         Usuario usuario = userRepo.findByEmail(dto.getEmail())

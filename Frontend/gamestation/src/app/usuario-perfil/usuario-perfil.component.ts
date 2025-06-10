@@ -150,7 +150,11 @@ export class UsuarioComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then(result => {
       if (result.isConfirmed) {
-        const datos = this.usuarioForm.value;
+        const datos = { ...this.usuarioForm.value };
+  
+        if (!datos.password) {
+          delete datos.password;
+        }
         const usuarioActualizado = { ...this.usuario, ...datos };
 
         this.usuarioService.updateUsuario(usuarioId, usuarioActualizado).subscribe({
