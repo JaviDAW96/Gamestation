@@ -54,7 +54,7 @@ export class AnalistaComponent implements OnInit {
         this.noticias = posts.filter(p => p.tipo === 'noticia');
         this.loading = false;
 
-        // Inicializar el formulario con los datos del analista
+        
         this.perfilForm = this.fb.group({
           descripcion: [this.analista.descripcion, Validators.required],
           experienciaLaboral: [this.analista.experienciaLaboral, Validators.required],

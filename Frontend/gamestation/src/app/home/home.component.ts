@@ -27,7 +27,7 @@ export class HomeComponent implements OnInit {
 
   analisisPage = 1;
   articulosPage = 1;
-  pageSize = 8; // <-- Cambia aquí de 10 a 8
+  pageSize = 8; 
 
   constructor(
     private postService: PostService,

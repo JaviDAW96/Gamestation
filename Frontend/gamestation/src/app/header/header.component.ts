@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrl: './header.component.css'
 })
 export class HeaderComponent {
-  // Propiedad para saber si el usuario es analista y está logueado
+
   isAnalista: boolean = false;
   username: string = '';
   userId: string | null = null;
@@ -24,9 +24,9 @@ export class HeaderComponent {
     const token = localStorage.getItem('token');
     const rol = localStorage.getItem('rol');
     this.isAnalista = !!token && rol === 'analista';
-    this.username = localStorage.getItem('username') || ''; // 'username' es el nombre, no username real
-    this.userId = localStorage.getItem('userId'); // id del usuario
-    // Recupera el id de analista si existe en localStorage
+    this.username = localStorage.getItem('username') || ''; 
+    this.userId = localStorage.getItem('userId'); 
+
     this.analistaId = localStorage.getItem('analistaId');
   }
 
@@ -40,7 +40,7 @@ export class HeaderComponent {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Aquí tu lógica real de logout
+  
         this.authService.logout();
         this.router.navigate(['/login']);
         Swal.fire('Sesión cerrada', 'Has cerrado sesión correctamente.', 'success');

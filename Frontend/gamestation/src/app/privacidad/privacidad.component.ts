@@ -5,7 +5,7 @@ import { Location } from '@angular/common';
   selector: 'app-privacidad',
   imports: [],
   templateUrl: './privacidad.component.html',
-  styleUrls: ['./privacidad.component.css'] // Corregido: styleUrls en plural
+  styleUrls: ['./privacidad.component.css'] 
 })
 export class PrivacidadComponent {
   constructor(private location: Location) {}

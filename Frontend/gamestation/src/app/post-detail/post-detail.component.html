@@ -6,7 +6,7 @@
         <button type="button" class="btn btn-outline-secondary mb-4" (click)="volver()">
           &larr; Volver
         </button>
-      <!-- Portada grande arriba -->
+ 
       <div *ngIf="post?.portada?.url" class="mb-4 text-center">
         <img [src]="post.portada.url" alt="Portada del post" class="img-fluid rounded"
              style="max-height: 600px; object-fit: cover; width: 100%;">
@@ -19,7 +19,7 @@
       <div class="mb-4" *ngIf="post?.contenido as contenido">
         <ng-container *ngFor="let parrafo of getParrafos(contenido); let i = index">
           <p>{{ parrafo }}</p>
-          <!-- Muestra la imagen justo después del primer párrafo -->
+
           <div *ngIf="i === 0 && post?.imagenContenido1?.url" class="my-4 text-center">
             <img [src]="post.imagenContenido1.url" alt="Imagen de contenido 1" class="img-fluid rounded"
                  style="max-height: 420px; object-fit: cover; width: 100%;">
@@ -32,7 +32,7 @@
             <img [src]="post.imagenContenido3.url" alt="Imagen de contenido 3" class="img-fluid rounded"
                  style="max-height: 420px; object-fit: cover; width: 100%;">
           </div>
-          <!-- Aquí podrías mostrar más imágenes si las tienes -->
+
         </ng-container>
       </div>
       <div class="mb-3">
@@ -43,10 +43,3 @@
   </div>
 </div>
 
-<style>
-/* Fondo neutro para toda la vista */
-.post-detail-bg {
-  background: #f5f6fa !important;
-  min-height: 100vh;
-}
-</style>

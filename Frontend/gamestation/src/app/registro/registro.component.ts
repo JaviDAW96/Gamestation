@@ -37,7 +37,7 @@ export class RegistroComponent implements OnInit {
     }, { validators: this.passwordsMatch });
   }
 
-  // Valida que password y confirmPassword coincidan
+
   private passwordsMatch(control: import('@angular/forms').AbstractControl) {
     const group = control as FormGroup;
     const pass = group.get('password')?.value;

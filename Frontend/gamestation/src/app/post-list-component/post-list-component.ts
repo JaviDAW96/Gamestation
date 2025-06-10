@@ -37,7 +37,7 @@ export class PostListComponent implements OnChanges, OnInit {
     this.currentUserId = this.authService.getCurrentUserId();
     this.esAnalista = this.authService.isAnalista?.() ?? false;
 
-    // Obtén el usuario actual (ajusta según tu AuthService)
+
     const usuario = this.authService.getCurrentUser?.();
 
     this.route.queryParams.subscribe(params => {
@@ -58,7 +58,7 @@ export class PostListComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
-    // Filtra noticias y destacados
+
     const noticias = this.items.filter(i => i.tipo === 'noticia');
     this.noticiasGrandes = noticias.slice(0, 2);
     this.noticiasPequenas = noticias.slice(2, 5);

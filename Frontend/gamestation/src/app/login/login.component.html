@@ -1,12 +1,51 @@
-<div class="login-viewport" style="background: #f8f9fa; min-height: 100vh;">
+<div class="login-viewport d-flex align-items-center justify-content-center" style="background: #f8f9fa; min-height: 100vh; position: relative; overflow: hidden;">
+  <!-- Medialuna izquierda a toda altura -->
+  <img
+    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542125/Blog-Post_Video-Games_quvtwg.jpg"
+    alt="Decoración izquierda"
+    class="login-medialuna login-medialuna-left d-none d-md-block"
+    style="
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 520px;
+      border-radius: 0 60% 60% 0 / 0 100% 100% 0;
+      object-fit: cover;
+      box-shadow: 0 0 32px #0002;
+      z-index: 1;
+    "
+  />
+
+  <!-- Medialuna derecha a toda altura -->
+  <img
+    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542125/Blog-Post_Video-Games_quvtwg.jpg"
+    alt="Decoración derecha"
+    class="login-medialuna login-medialuna-right d-none d-md-block"
+    style="
+      position: absolute;
+      right: 0;
+      top: 0;
+      height: 100vh;
+      width: 520px;
+      border-radius: 60% 0 0 60% / 100% 0 0 100%;
+      object-fit: cover;
+      box-shadow: 0 0 32px #0002;
+      z-index: 1;
+    "
+  />
+
   <div 
     class="card login-card shadow"
-    style="max-width: 400px; margin: 0 auto; border: 2.5px solid var(--electric-blue);"
+    style="max-width: 480px; width: 100%; margin: 0 auto; border: 2.5px solid var(--electric-blue); z-index: 2;"
   >
-    <div class="card-body">
+    <div class="card-body p-5">
+      <!-- Logo grande arriba -->
+      <div class="text-center mb-4">
+        <img src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542720/Gamestation_Logo_ilbu4w.png" alt="GameStation Logo" style="max-width: 140px; width: 90%; margin-bottom: 8px;" />
+      </div>
       <h2 class="card-title text-center mb-4 text-orange">Iniciar Sesión</h2>
 
-      <!-- Mensaje de error general -->
       <div *ngIf="errorMessage" class="alert alert-danger text-center">
         {{ errorMessage }}
       </div>

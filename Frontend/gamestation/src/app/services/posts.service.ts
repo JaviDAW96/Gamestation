@@ -76,7 +76,7 @@ export class PostService {
 
   uploadImageToBackend(multimedia: { url: string, tipoContenido: string, nombre: string }) {
     return this.http.post<{ id: number, url: string }>(
-      `${environment.apiUrl}/imagenes`, // <-- BIEN, usa la ruta de tu backend
+      `${environment.apiUrl}/imagenes`, 
       multimedia
     );
   }

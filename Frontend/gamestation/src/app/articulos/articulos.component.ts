@@ -21,7 +21,7 @@ export class ArticulosComponent implements OnInit {
   pageSize = 8;
   esAnalista = false;
   busquedaControl = new FormControl('');
-  sinResultados = false; // Añade esto
+  sinResultados = false; 
 
   constructor(
     private postService: PostService,
@@ -50,7 +50,7 @@ export class ArticulosComponent implements OnInit {
     this.postService.search(query, 'articulo').subscribe((posts: Post[]) => {
       this.articulos = posts;
       this.articulosPage = 1;
-      this.sinResultados = posts.length === 0; // Marca si no hay resultados
+      this.sinResultados = posts.length === 0; 
     });
   }
 

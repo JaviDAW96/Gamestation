@@ -5,10 +5,10 @@ import { HomeComponent } from './home/home.component';
 import { VideojuegoPerfilComponent } from './videojuego-perfil/videojuego-perfil.component';
 import { UsuarioComponent } from './usuario-perfil/usuario-perfil.component';
 import { AnalistaComponent } from './analista-perfil/analista-perfil.component';
-import { AuthGuard } from './auth/auth.guard'; // Asegúrate de que la ruta sea correcta
-import { PostComponent } from './post/post.component'; // Asegúrate de importar el componente
-import { PostDetailComponent } from './post-detail/post-detail.component'; // Asegúrate de importar el componente de detalle
-import { AnalisisComponent } from './analisis/analisis.component'; // <-- Añade esta importación
+import { AuthGuard } from './auth/auth.guard'; 
+import { PostComponent } from './post/post.component'; 
+import { PostDetailComponent } from './post-detail/post-detail.component'; 
+import { AnalisisComponent } from './analisis/analisis.component'; 
 import { ArticulosComponent } from './articulos/articulos.component';
 import { NoticiasComponent } from './noticias/noticias.component';
 import { ContactoComponent } from './contacto/contacto.component';

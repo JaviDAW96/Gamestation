@@ -6,17 +6,16 @@ import { environment } from '../../environments/environment'; // ← Importa env
 
 interface AuthResponse {
   token: string;
-  // …otras props
+
 }
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private readonly base = environment.apiUrl + '/auth';    // URL centralizada
 
-  // Guarda el usuario autenticado (puedes adaptarlo a tu modelo)
+ 
   private currentUser: any = null;
 
-  // ← Inyecta HttpClient
   constructor(private http: HttpClient) {}
 
   login(email: string, password: string) {
@@ -38,7 +37,7 @@ export class AuthService {
         if (rolStr) {
           localStorage.setItem('rol', rolStr.toLowerCase());
         }
-        this.setCurrentUser(res.usuario); // Asegúrate de que 'usuario' viene en la respuesta
+        this.setCurrentUser(res.usuario); 
       }),
       catchError(err => {
         console.error('Error en el login:', err);
@@ -54,7 +53,7 @@ export class AuthService {
     password: string; 
     dni: string;
     fecha_nacimiento: string;
-    id_rol?: number; // Opcional, si tu backend lo pone por defecto puedes omitirlo
+    id_rol?: number; 
   }) {
     return this.http.post(`${this.base}/registro`, userData);
   }
@@ -63,13 +62,13 @@ export class AuthService {
     localStorage.setItem('token', token);
   }
 
-  // Llama a esto al hacer login
+  
   setCurrentUser(user: any) {
     this.currentUser = user;
     localStorage.setItem('currentUser', JSON.stringify(user));
   }
 
-  // Recupera el usuario (por ejemplo, tras recargar la página)
+  
   getCurrentUser() {
     if (!this.currentUser) {
       const userStr = localStorage.getItem('currentUser');
@@ -78,14 +77,14 @@ export class AuthService {
     return this.currentUser;
   }
 
-  // Devuelve solo el ID del usuario autenticado
+  
   getCurrentUserId(): number | null {
     const user = this.getCurrentUser();
     return user ? user.id : null;
   }
 
    logout(): void {
-    // Elimina el token y el rol del localStorage
+    
     localStorage.removeItem('token');
     localStorage.removeItem('rol');
 

@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class AnalistaService {
-     private baseUrl = `${environment.apiUrl}/analistas`; // Usa la URL del environment
+     private baseUrl = `${environment.apiUrl}/analistas`; 
 
     analista?: InterfazAnalista;
     errorMsg?: string;

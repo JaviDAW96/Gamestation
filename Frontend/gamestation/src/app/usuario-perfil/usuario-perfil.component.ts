@@ -53,13 +53,12 @@ export class UsuarioComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       if (params['welcome']) {
-        // Muestra la alerta de bienvenida
+       
         Swal.fire({
           icon: 'success',
           title: '¡Bienvenido!',
           text: 'Has iniciado sesión correctamente.'
         });
-        // Elimina el parámetro 'welcome' de la URL sin recargar
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams: { welcome: null },
@@ -73,8 +72,8 @@ export class UsuarioComponent implements OnInit {
   private loadUsuario(id: number) {
     this.usuarioService.getById(id).subscribe({
       next: (u: Usuario) => {
-        this.usuario = u; // <-- Añade esta línea
-        // Poblamos el formulario (password no se rellena por seguridad)
+        this.usuario = u; 
+
         this.usuarioForm.patchValue({
           nombre: u.nombre,
           apellidos: u.apellidos,
@@ -136,7 +135,7 @@ export class UsuarioComponent implements OnInit {
   guardarCambiosUsuario() {
     if (this.usuarioForm.invalid || !this.usuario) return;
 
-    const usuarioId = this.usuario.id; // <-- Guarda el id aquí
+    const usuarioId = this.usuario.id; 
 
     Swal.fire({
       title: '¿Guardar cambios?',
