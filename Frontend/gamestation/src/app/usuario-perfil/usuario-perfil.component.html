@@ -94,8 +94,21 @@
           <input class="form-control form-control-lg" formControlName="fechaNacimiento" type="date" required>
         </div>
         <div class="mb-3">
-          <label class="form-label">Imagen (URL)</label>
-          <input class="form-control form-control-lg" formControlName="imagen">
+          <label class="form-label">Avatar</label>
+          <div class="d-flex flex-wrap gap-3">
+            <div *ngFor="let avatar of avatarList" class="form-check">
+              <input
+                class="form-check-input"
+                type="radio"
+                [value]="avatar"
+                formControlName="imagen"
+                [id]="avatar"
+              />
+              <label class="form-check-label" [for]="avatar">
+                <img [src]="avatar" alt="avatar" style="width:48px; height:48px; border-radius:50%; border:2px solid #ccc;">
+              </label>
+            </div>
+          </div>
         </div>
       </div>
       <div class="modal-footer">

@@ -23,6 +23,13 @@ export class UsuarioComponent implements OnInit {
   cargando = true;
   errorMsg = '';
 
+  avatarList = [
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542720/Gamestation_Logo_ilbu4w.png',
+    'https://randomuser.me/api/portraits/men/32.jpg',
+    'https://randomuser.me/api/portraits/women/44.jpg',
+    // ...añade más URLs de avatares
+  ];
+
   constructor(
     private fb: FormBuilder,
     private usuarioService: UsuarioService,

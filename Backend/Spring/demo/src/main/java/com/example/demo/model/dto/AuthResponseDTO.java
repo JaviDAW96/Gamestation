@@ -17,5 +17,5 @@ public class AuthResponseDTO {
     private UsuarioDTO usuario;
     private RolDTO rol;
     private List<String> roles;
-    private String nombre; // <-- Añade esto
+    private String nombre; 
 }
