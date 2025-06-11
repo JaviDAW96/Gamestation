@@ -23,11 +23,26 @@ export class UsuarioComponent implements OnInit {
   cargando = true;
   errorMsg = '';
 
-  avatarList = [
-    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542720/Gamestation_Logo_ilbu4w.png',
-    'https://randomuser.me/api/portraits/men/32.jpg',
-    'https://randomuser.me/api/portraits/women/44.jpg',
-    // ...añade más URLs de avatares
+  avatarList: string[] = [
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641777/Tifa_70_ojj5bg.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641770/Tifa_21_v3pxse.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641747/Aerith_36_b7s8vi.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641721/Aerith_2_ja7sbe.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641715/Aerith_49_f8mng5.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641678/Chris_Redfield_-_11_ofddz3.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641676/Chris_Redfield_-_10_rctx6l.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641657/Ashley_-_02_wk2ns1.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641653/Ashley_-_01_euamcs.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641639/Claire_Redfield_11_uxjabo.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641636/Claire_Redfield_6_cvrsjd.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641624/Ada_Wong_34_k0nruh.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641622/Ada_Wong_1_cqdxls.png',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641611/Leon_Kennedy_-_18_rznww1.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641606/Leon_Kennedy_-_16_oyoshs.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641531/BOTW-Link_avojxx.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749499355/pkvkvv7hyenjmnmaar38.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749498651/ridewulgpfzo97gz6psw.jpg',
+    'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749490452/vvnfwrfzvjohw8tixcyt.jpg'
   ];
 
   constructor(

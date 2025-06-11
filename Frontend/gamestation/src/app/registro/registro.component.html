@@ -1,43 +1,8 @@
 <div
-  class="main-wrapper min-vh-100 d-flex align-items-center justify-content-center"
-  style="position: relative; overflow: hidden"
+  class="main-wrapper min-vh-100 d-flex align-items-center justify-content-end"
+  style="position: relative; overflow: hidden; background: #f8f9fa;"
 >
-  <!-- Medialuna izquierda -->
-  <img
-    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542125/Blog-Post_Video-Games_quvtwg.jpg"
-    alt="Decoración izquierda"
-    class="d-none d-md-block"
-    style="
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100vh;
-      width: 520px;
-      border-radius: 0 60% 60% 0 / 0 100% 100% 0;
-      object-fit: cover;
-      box-shadow: 0 0 32px #0002;
-      z-index: 1;
-    "
-  />
-
-  <!-- Medialuna derecha -->
-  <img
-    src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542125/Blog-Post_Video-Games_quvtwg.jpg"
-    alt="Decoración derecha"
-    class="d-none d-md-block"
-    style="
-      position: absolute;
-      right: 0;
-      top: 0;
-      height: 100vh;
-      width: 520px;
-      border-radius: 60% 0 0 60% / 100% 0 0 100%;
-      object-fit: cover;
-      box-shadow: 0 0 32px #0002;
-      z-index: 1;
-    "
-  />
-
+  <!-- Contenedor del registro a la derecha -->
   <div
     class="card card-electric shadow-sm p-4"
     style="
@@ -47,9 +12,9 @@
       position: relative;
       z-index: 2;
       background: #fff;
+      margin-right: 4vw;
     "
   >
-
     <div class="text-center mb-4">
       <img
         src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749542720/Gamestation_Logo_ilbu4w.png"
@@ -76,10 +41,7 @@
             placeholder="Tu nombre"
           />
           <div
-            *ngIf="
-              registroForm.get('nombre')?.touched &&
-              registroForm.get('nombre')?.invalid
-            "
+            *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid"
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('nombre')?.errors?.['required']">
@@ -97,10 +59,7 @@
             placeholder="Tus apellidos"
           />
           <div
-            *ngIf="
-              registroForm.get('apellidos')?.touched &&
-              registroForm.get('apellidos')?.invalid
-            "
+            *ngIf="registroForm.get('apellidos')?.touched && registroForm.get('apellidos')?.invalid"
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('apellidos')?.errors?.['required']">
@@ -121,10 +80,7 @@
           placeholder="tucorreo@ejemplo.com"
         />
         <div
-          *ngIf="
-            registroForm.get('email')?.touched &&
-            registroForm.get('email')?.invalid
-          "
+          *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.invalid"
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('email')?.errors?.['required']">
@@ -147,10 +103,7 @@
           placeholder="Mínimo 6 caracteres"
         />
         <div
-          *ngIf="
-            registroForm.get('password')?.touched &&
-            registroForm.get('password')?.invalid
-          "
+          *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.invalid"
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('password')?.errors?.['required']">
@@ -166,9 +119,7 @@
 
       <!-- Confirmar contraseña -->
       <div class="d-flex flex-column">
-        <label for="confirmPassword" class="form-label"
-          >Confirmar contraseña</label
-        >
+        <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
         <input
           type="password"
           id="confirmPassword"
@@ -177,22 +128,15 @@
           placeholder="Repítela aquí"
         />
         <div
-          *ngIf="
-            registroForm.get('confirmPassword')?.touched &&
-            registroForm.get('confirmPassword')?.invalid
-          "
+          *ngIf="registroForm.get('confirmPassword')?.touched && registroForm.get('confirmPassword')?.invalid"
           class="text-danger small mt-1"
         >
-          <div
-            *ngIf="registroForm.get('confirmPassword')?.errors?.['required']"
-          >
+          <div *ngIf="registroForm.get('confirmPassword')?.errors?.['required']">
             Requiere confirmación.
           </div>
           <div
-            *ngIf="
-              registroForm.hasError('passwordMismatch') &&
-              registroForm.get('confirmPassword')?.touched
-            "
+            *ngIf="registroForm.hasError('passwordMismatch') &&
+            registroForm.get('confirmPassword')?.touched"
           >
             Las contraseñas no coinciden.
           </div>
@@ -210,9 +154,7 @@
           placeholder="Tu DNI"
         />
         <div
-          *ngIf="
-            registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid
-          "
+          *ngIf="registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid"
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('dni')?.errors?.['required']">
@@ -223,9 +165,7 @@
 
       <!-- Fecha de nacimiento -->
       <div class="d-flex flex-column">
-        <label for="fecha_nacimiento" class="form-label"
-          >Fecha de nacimiento</label
-        >
+        <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
         <input
           type="date"
           id="fecha_nacimiento"
@@ -234,15 +174,10 @@
           placeholder="Fecha de nacimiento"
         />
         <div
-          *ngIf="
-            registroForm.get('fecha_nacimiento')?.touched &&
-            registroForm.get('fecha_nacimiento')?.invalid
-          "
+          *ngIf="registroForm.get('fecha_nacimiento')?.touched && registroForm.get('fecha_nacimiento')?.invalid"
           class="text-danger small mt-1"
         >
-          <div
-            *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']"
-          >
+          <div *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']">
             La fecha de nacimiento es obligatoria.
           </div>
         </div>
@@ -264,5 +199,14 @@
         Inicia sesión aquí
       </a>
     </p>
+  </div>
+
+  <!-- Imagen a la derecha ocupando todo el alto -->
+  <div style="flex: 0 0 38vw; min-width: 320px; max-width: 600px; background: #111; height: 100vh;">
+    <img
+      src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641069/photo-1580464360012-948b4fe5ddc2_rwqpjc.avif"
+      alt="Decoración derecha"
+      style="width: 100%; height: 100vh; object-fit: cover; object-position: center;"
+    />
   </div>
 </div>
