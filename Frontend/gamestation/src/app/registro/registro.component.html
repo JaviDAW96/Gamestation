@@ -69,6 +69,7 @@
     >
       <!-- Nombre y Apellidos -->
       <div class="row g-3">
+  
         <div class="col-md-6">
           <label for="nombre" class="form-label">Nombre</label>
           <input
@@ -79,17 +80,19 @@
             placeholder="Tu nombre"
           />
           <div
-            *ngIf="
-              registroForm.get('nombre')?.touched &&
-              registroForm.get('nombre')?.invalid
-            "
+            *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid"
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('nombre')?.errors?.['required']">
               El nombre es obligatorio.
             </div>
+            <div *ngIf="registroForm.get('nombre')?.errors?.['pattern']">
+              El nombre no puede contener números ni caracteres especiales.
+            </div>
           </div>
         </div>
+
+        <!-- Apellidos -->
         <div class="col-md-6">
           <label for="apellidos" class="form-label">Apellidos</label>
           <input
@@ -100,14 +103,14 @@
             placeholder="Tus apellidos"
           />
           <div
-            *ngIf="
-              registroForm.get('apellidos')?.touched &&
-              registroForm.get('apellidos')?.invalid
-            "
+            *ngIf="registroForm.get('apellidos')?.touched && registroForm.get('apellidos')?.invalid"
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('apellidos')?.errors?.['required']">
               Los apellidos son obligatorios.
+            </div>
+            <div *ngIf="registroForm.get('apellidos')?.errors?.['pattern']">
+              Los apellidos no pueden contener números ni caracteres especiales.
             </div>
           </div>
         </div>

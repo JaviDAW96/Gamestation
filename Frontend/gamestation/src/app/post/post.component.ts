@@ -93,7 +93,6 @@ export class PostComponent implements OnInit {
       }
     });
 
-    // Sincroniza con el estado real al cargar la vista
     this.isDarkMode = document.body.classList.contains('dark-mode') ||
       localStorage.getItem('darkMode') === 'true';
   }

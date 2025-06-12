@@ -52,6 +52,7 @@ export class AnalistaComponent implements OnInit {
     'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749498651/ridewulgpfzo97gz6psw.jpg',
     'https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749490452/vvnfwrfzvjohw8tixcyt.jpg'
   ];
+  isDarkMode = false;
 
 
   constructor(
@@ -67,6 +68,10 @@ export class AnalistaComponent implements OnInit {
   ngOnInit(): void {
     const analistaId = Number(this.route.snapshot.paramMap.get('id'));
     this.loading = true;
+
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+
     this.analistaService.getPerfil(analistaId).subscribe({
       next: a => {
         this.analista = a;
@@ -76,7 +81,6 @@ export class AnalistaComponent implements OnInit {
         this.noticias = posts.filter(p => p.tipo === 'noticia');
         this.loading = false;
 
-        
         this.perfilForm = this.fb.group({
           descripcion: [this.analista.descripcion, Validators.required],
           experienciaLaboral: [this.analista.experienciaLaboral, Validators.required],
@@ -178,5 +182,11 @@ export class AnalistaComponent implements OnInit {
         });
       }
     });
+  }
+
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
   }
 }

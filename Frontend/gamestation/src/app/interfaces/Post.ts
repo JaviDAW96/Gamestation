@@ -5,36 +5,33 @@ import { PostMultimedia } from "./PostMultimedia";
 export type PostTipo = 'analisis' | 'articulo' | 'noticia';
 
 export interface Post {
-  id?: number;                  // opcional para creación
+  id?: number;                 
   titulo: string;
   subtitulo?: string;
   contenido: string;
   descripcion: string;
-  fechaPublicacion: string;     // ISO string, p. ej. "2025-05-14"
+  fechaPublicacion: string;     
   tipo: PostTipo;
   usuarioId: number;
 
-  // Imágenes principales
+
   miniatura?: Multimedia;
   portada?: Multimedia;
   imagenContenido1?: Multimedia;
   imagenContenido2?: Multimedia;
   imagenContenido3?: Multimedia;
 
-  // Arrays de imágenes y multimedia
 
 imagenes?: PostMultimedia[]; // 
   multimedia?: Multimedia[];
   multimediaIds?: number[];
 
-  // IDs de imágenes principales
   miniaturaId?: number;
   portadaId?: number;
   imagenContenido1Id?: number;
   imagenContenido2Id?: number;
   imagenContenido3Id?: number;
 
-  // Otros campos opcionales según tu backend
   comentarios?: any[];
   reacciones?: any[];
   etiquetas?: any[];

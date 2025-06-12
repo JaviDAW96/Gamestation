@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router'; // <-- IMPORTANTE
+import { RouterModule } from '@angular/router'; 
 import Swal from 'sweetalert2';
 import { AuthService } from '../services/auth.service';
 import { Router } from '@angular/router';
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule], // <-- AGREGA RouterModule AQUÍ
+  imports: [CommonModule, ReactiveFormsModule, RouterModule], 
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
