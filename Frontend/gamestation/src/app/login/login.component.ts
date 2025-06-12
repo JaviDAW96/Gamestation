@@ -40,6 +40,7 @@ export class LoginComponent implements OnInit {
   toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     this.isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
   }
 
   onSubmit(): void {
