@@ -1,4 +1,3 @@
-/* Global styles for the application */
 html, body {
   height: 100%;
   margin: 0;
@@ -45,6 +44,26 @@ body.dark-mode .navbar-light {
   color: #f1f1f1 !important;
 }
 
+body.dark-mode .navbar .navbar-nav .nav-link,
+body.dark-mode .navbar .navbar-brand,
+body.dark-mode .navbar .navbar-text {
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .navbar .navbar-nav .nav-link.active,
+body.dark-mode .navbar .navbar-nav .nav-link:focus,
+body.dark-mode .navbar .navbar-nav .nav-link:hover {
+  color: #00aaff !important;
+}
+
+
+body.dark-mode .navbar-toggler {
+  border-color: #f1f1f1 !important;
+}
+body.dark-mode .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(241,241,241,1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E") !important;
+}
+
 body.dark-mode .form-control {
   background: #23272b !important;
   color: #f1f1f1 !important;
@@ -54,4 +73,32 @@ body.dark-mode .form-control {
 body.dark-mode .btn-outline-dark {
   color: #f1f1f1 !important;
   border-color: #f1f1f1 !important;
+}
+
+.login-viewport,
+.main-wrapper {
+  background: #f5f6fa;
+}
+
+body.dark-mode .login-viewport,
+body.dark-mode .main-wrapper {
+  background: #23272b !important; 
+}
+
+
+body.dark-mode .login-card,
+body.dark-mode .card-electric,
+body.dark-mode .card {
+  background: #181a1b !important;
+  color: #f1f1f1 !important;
+  border-color: #222 !important;
+}
+
+
+body.dark-mode .form-control,
+body.dark-mode input,
+body.dark-mode .input-orange {
+  background: #23272b !important;
+  color: #f1f1f1 !important;
+  border-color: #444 !important;
 }
