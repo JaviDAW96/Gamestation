@@ -85,7 +85,6 @@ body.dark-mode .main-wrapper {
   background: #23272b !important; 
 }
 
-
 body.dark-mode .login-card,
 body.dark-mode .card-electric,
 body.dark-mode .card {
@@ -94,11 +93,27 @@ body.dark-mode .card {
   border-color: #222 !important;
 }
 
-
 body.dark-mode .form-control,
 body.dark-mode input,
 body.dark-mode .input-orange {
   background: #23272b !important;
   color: #f1f1f1 !important;
   border-color: #444 !important;
+}
+
+body.dark-mode .form-check-input[type="radio"] {
+  background-color: #23272b !important;
+  border: 2px solid #888 !important;
+  accent-color: #00aaff; 
+}
+
+body.dark-mode .form-check-input[type="radio"]:checked {
+  background-color: #00aaff !important;
+  border-color: #00aaff !important;
+}
+
+body.dark-mode input::placeholder,
+body.dark-mode textarea::placeholder {
+  color: #b0b8c1 !important;
+  opacity: 1 !important;
 }
