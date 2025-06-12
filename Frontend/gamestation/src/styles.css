@@ -187,3 +187,30 @@ body.dark-mode .perfil-viewport label,
 body.dark-mode .perfil-viewport .fw-bold {
   color: #f1f1f1 !important;
 }
+
+
+.btn-orange {
+  background: var(--electric-blue);
+  color: #fff;
+  border: none;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-orange:hover,
+.btn-orange:focus {
+  background: #005fcc;
+  color: #fff;
+}
+
+
+body.dark-mode .btn-orange {
+  background: #00aaff !important;
+  color: #181a1b !important;
+  border: none;
+}
+
+body.dark-mode .btn-orange:hover,
+body.dark-mode .btn-orange:focus {
+  background: #0088cc !important;
+  color: #fff !important;
+}
