@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
@@ -7,7 +7,7 @@ import { CommonModule, Location } from '@angular/common';
   templateUrl: './privacidad.component.html',
   styleUrls: ['./privacidad.component.css'] 
 })
-export class PrivacidadComponent {
+export class PrivacidadComponent implements OnInit {
   constructor(private location: Location) {}
 
 
@@ -18,14 +18,11 @@ export class PrivacidadComponent {
   }
 
    toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
-  }
+  document.body.classList.toggle('dark-mode');
+  this.isDarkMode = document.body.classList.contains('dark-mode');
+}
 
+ngOnInit() {
+  this.isDarkMode = document.body.classList.contains('dark-mode');
+}
 }

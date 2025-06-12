@@ -117,3 +117,26 @@ body.dark-mode textarea::placeholder {
   color: #b0b8c1 !important;
   opacity: 1 !important;
 }
+
+body.dark-mode .contacto-bg {
+  background: #23272b !important;
+}
+
+body.dark-mode .contacto-bg .card {
+  background: #181a1b !important;
+  color: #f1f1f1 !important;
+  border-color: #222 !important;
+}
+
+body.dark-mode .contacto-bg .bg-white {
+  background: #181a1b !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .text-muted {
+  color: #b0b8c1 !important;
+}
+
+body.dark-mode .post-detail-bg {
+  background: #23272b !important;
+}

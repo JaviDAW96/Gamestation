@@ -30,21 +30,16 @@ export class LoginComponent implements OnInit {
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
 
 
-    toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
   onSubmit(): void {

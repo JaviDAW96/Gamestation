@@ -28,6 +28,10 @@ export class ContactoComponent {
 
   isDarkMode = false;
 
+  ngOnInit() {
+    this.isDarkMode = document.body.classList.contains('dark-mode');
+  }
+
   enviarFormulario() {
     if (this.contactForm.valid) {
       this.mensajeEnviado = true;
@@ -49,15 +53,9 @@ export class ContactoComponent {
     this.location.back();
   }
 
-    toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
 }

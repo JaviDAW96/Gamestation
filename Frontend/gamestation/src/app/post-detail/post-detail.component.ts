@@ -24,11 +24,7 @@ export class PostDetailComponent implements OnInit {
   isDarkMode = false;
 
   ngOnInit() {
-    const idParam = this.route.snapshot.paramMap.get('id');
-    const id = idParam !== null ? Number(idParam) : null;
-    if (id !== null && !isNaN(id)) {
-      this.postService.getById(id).subscribe(post => this.post = post);
-    }
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
   volver() {
@@ -39,15 +35,9 @@ export class PostDetailComponent implements OnInit {
     return contenido ? contenido.split('\n') : [];
   }
 
-   toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
 }
