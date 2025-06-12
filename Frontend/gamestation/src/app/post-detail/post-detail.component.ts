@@ -21,6 +21,8 @@ export class PostDetailComponent implements OnInit {
     private location: Location
   ) {}
 
+  isDarkMode = false;
+
   ngOnInit() {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = idParam !== null ? Number(idParam) : null;
@@ -36,4 +38,16 @@ export class PostDetailComponent implements OnInit {
   getParrafos(contenido: string): string[] {
     return contenido ? contenido.split('\n') : [];
   }
+
+   toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+
 }

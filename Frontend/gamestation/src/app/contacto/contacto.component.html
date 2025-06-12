@@ -1,6 +1,19 @@
 <div
   class="contacto-bg d-flex align-items-center justify-content-center min-vh-100"
+  style="position: relative;"
 >
+
+  <button
+    class="btn btn-outline-dark d-flex align-items-center"
+    type="button"
+    (click)="toggleDarkMode()"
+    [attr.aria-pressed]="isDarkMode"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10;"
+  >
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
+    <span class="ms-1">{{ isDarkMode ? 'Claro' : 'Oscuro' }}</span>
+  </button>
+
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-md-10 col-lg-8">

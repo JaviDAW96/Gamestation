@@ -1,4 +1,16 @@
-<div class="terminos-bg py-5">
+<div class="terminos-bg py-5" style="position: relative;">
+  <!-- Botón modo oscuro arriba a la derecha -->
+  <button
+    class="btn btn-outline-dark d-flex align-items-center"
+    type="button"
+    (click)="toggleDarkMode()"
+    [attr.aria-pressed]="isDarkMode"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10;"
+  >
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
+    <span class="ms-1">{{ isDarkMode ? 'Claro' : 'Oscuro' }}</span>
+  </button>
+
   <div class="container my-5">
     <div
       class="card shadow-lg p-4 mx-auto"

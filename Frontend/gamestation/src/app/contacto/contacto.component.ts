@@ -26,6 +26,8 @@ export class ContactoComponent {
     });
   }
 
+  isDarkMode = false;
+
   enviarFormulario() {
     if (this.contactForm.valid) {
       this.mensajeEnviado = true;
@@ -46,4 +48,16 @@ export class ContactoComponent {
   volver() {
     this.location.back();
   }
+
+    toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+
 }
