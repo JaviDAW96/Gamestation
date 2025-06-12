@@ -61,9 +61,7 @@ export class HeaderComponent {
   }
 
   ngOnInit() {
-    this.isDarkMode = localStorage.getItem('darkMode') === 'true';
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-    }
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 }

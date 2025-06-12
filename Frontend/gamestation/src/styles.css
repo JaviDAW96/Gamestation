@@ -175,3 +175,15 @@ body.dark-mode .perfil-viewport .form-control-plaintext {
   color: #f1f1f1 !important;
   border-color: #444 !important;
 }
+
+body.dark-mode .perfil-viewport .perfil-label,
+body.dark-mode .perfil-viewport label,
+body.dark-mode .perfil-viewport .fw-bold {
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .perfil-viewport .perfil-label,
+body.dark-mode .perfil-viewport label,
+body.dark-mode .perfil-viewport .fw-bold {
+  color: #f1f1f1 !important;
+}
