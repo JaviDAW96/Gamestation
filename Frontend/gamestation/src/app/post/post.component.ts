@@ -1,4 +1,3 @@
-// src/app/components/post/post.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, FormArray } from '@angular/forms';
 import { Post, PostTipo } from '../../app/interfaces/Post';
@@ -25,6 +24,7 @@ export class PostComponent implements OnInit {
   tipos: PostTipo[] = ['analisis', 'articulo', 'noticia'];
   imagenes: string[] = [];
   subiendoImagen = false;
+  isDarkMode = false;
 
 
   constructor(
@@ -92,6 +92,10 @@ export class PostComponent implements OnInit {
         this.cargando = false;
       }
     });
+
+    // Sincroniza con el estado real al cargar la vista
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 
   private loadPost(id: number) {
@@ -148,7 +152,7 @@ export class PostComponent implements OnInit {
       return;
     }
 
-    // Habilita temporalmente el campo si está deshabilitado (solo en creación)
+
     let wasDisabled = false;
     const fechaCtrl = this.postForm.get('fechaPublicacion');
     if (!this.modoEdicion && fechaCtrl?.disabled) {
@@ -226,7 +230,7 @@ export class PostComponent implements OnInit {
     });
   }
 
-   volver() {
+  volver() {
     this.location.back();
   }
   
@@ -331,6 +335,11 @@ export class PostComponent implements OnInit {
 
   get imagenesFA(): FormArray {
     return this.postForm.get('imagenes') as FormArray;
+  }
+
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 }
 

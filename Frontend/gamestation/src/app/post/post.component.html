@@ -6,8 +6,20 @@
 <div
   *ngIf="!cargando"
   class="post-viewport d-flex justify-content-center align-items-center min-vh-100"
-  style="padding-top: 40px; padding-bottom: 40px;"
+  style="padding-top: 40px; padding-bottom: 40px; position: relative;"
 >
+
+  <button
+    class="btn btn-outline-dark d-flex align-items-center"
+    type="button"
+    (click)="toggleDarkMode()"
+    [attr.aria-pressed]="isDarkMode"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10;"
+  >
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
+    <span class="ms-1">{{ isDarkMode ? 'Claro' : 'Oscuro' }}</span>
+  </button>
+
   <div
     class="card post-card shadow-lg p-4"
     style="max-width: 600px; width: 100%; border: 3px solid #00aaff"
