@@ -1,15 +1,48 @@
 <div
   class="main-wrapper min-vh-100 d-flex align-items-center justify-content-center"
-  style="background: #f8f9fa; min-height: 100vh; position: relative; overflow: hidden;"
+  style="
+    background: #f8f9fa;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+  "
 >
   <!-- Imagen a la izquierda ocupando todo el alto, fija en el viewport -->
-  <div style="position: absolute; left: 0; top: 0; height: 100vh; width: 38vw; min-width: 320px; max-width: 600px; background: #111; z-index: 1;">
+  <div
+    style="
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 38vw;
+      min-width: 320px;
+      max-width: 600px;
+      background: #111;
+      z-index: 1;
+    "
+  >
     <img
       src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641069/photo-1580464360012-948b4fe5ddc2_rwqpjc.avif"
       alt="Decoración izquierda"
-      style="width: 100%; height: 100vh; object-fit: cover; object-position: center;"
+      style="
+        width: 100%;
+        height: 100vh;
+        object-fit: cover;
+        object-position: center;
+      "
     />
   </div>
+
+  <button
+    class="btn btn-outline-dark d-flex align-items-center"
+    type="button"
+    (click)="toggleDarkMode()"
+    [attr.aria-pressed]="isDarkMode"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10"
+  >
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
+    <span class="ms-1">{{ isDarkMode ? "Claro" : "Oscuro" }}</span>
+  </button>
 
   <!-- Card de registro centrada en el viewport -->
   <div
@@ -50,7 +83,10 @@
             placeholder="Tu nombre"
           />
           <div
-            *ngIf="registroForm.get('nombre')?.touched && registroForm.get('nombre')?.invalid"
+            *ngIf="
+              registroForm.get('nombre')?.touched &&
+              registroForm.get('nombre')?.invalid
+            "
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('nombre')?.errors?.['required']">
@@ -68,7 +104,10 @@
             placeholder="Tus apellidos"
           />
           <div
-            *ngIf="registroForm.get('apellidos')?.touched && registroForm.get('apellidos')?.invalid"
+            *ngIf="
+              registroForm.get('apellidos')?.touched &&
+              registroForm.get('apellidos')?.invalid
+            "
             class="text-danger small mt-1"
           >
             <div *ngIf="registroForm.get('apellidos')?.errors?.['required']">
@@ -89,7 +128,10 @@
           placeholder="tucorreo@ejemplo.com"
         />
         <div
-          *ngIf="registroForm.get('email')?.touched && registroForm.get('email')?.invalid"
+          *ngIf="
+            registroForm.get('email')?.touched &&
+            registroForm.get('email')?.invalid
+          "
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('email')?.errors?.['required']">
@@ -112,7 +154,10 @@
           placeholder="Mínimo 6 caracteres"
         />
         <div
-          *ngIf="registroForm.get('password')?.touched && registroForm.get('password')?.invalid"
+          *ngIf="
+            registroForm.get('password')?.touched &&
+            registroForm.get('password')?.invalid
+          "
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('password')?.errors?.['required']">
@@ -128,7 +173,9 @@
 
       <!-- Confirmar contraseña -->
       <div class="d-flex flex-column">
-        <label for="confirmPassword" class="form-label">Confirmar contraseña</label>
+        <label for="confirmPassword" class="form-label"
+          >Confirmar contraseña</label
+        >
         <input
           type="password"
           id="confirmPassword"
@@ -137,15 +184,22 @@
           placeholder="Repítela aquí"
         />
         <div
-          *ngIf="registroForm.get('confirmPassword')?.touched && registroForm.get('confirmPassword')?.invalid"
+          *ngIf="
+            registroForm.get('confirmPassword')?.touched &&
+            registroForm.get('confirmPassword')?.invalid
+          "
           class="text-danger small mt-1"
         >
-          <div *ngIf="registroForm.get('confirmPassword')?.errors?.['required']">
+          <div
+            *ngIf="registroForm.get('confirmPassword')?.errors?.['required']"
+          >
             Requiere confirmación.
           </div>
           <div
-            *ngIf="registroForm.hasError('passwordMismatch') &&
-            registroForm.get('confirmPassword')?.touched"
+            *ngIf="
+              registroForm.hasError('passwordMismatch') &&
+              registroForm.get('confirmPassword')?.touched
+            "
           >
             Las contraseñas no coinciden.
           </div>
@@ -163,7 +217,9 @@
           placeholder="Tu DNI"
         />
         <div
-          *ngIf="registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid"
+          *ngIf="
+            registroForm.get('dni')?.touched && registroForm.get('dni')?.invalid
+          "
           class="text-danger small mt-1"
         >
           <div *ngIf="registroForm.get('dni')?.errors?.['required']">
@@ -174,7 +230,9 @@
 
       <!-- Fecha de nacimiento -->
       <div class="d-flex flex-column">
-        <label for="fecha_nacimiento" class="form-label">Fecha de nacimiento</label>
+        <label for="fecha_nacimiento" class="form-label"
+          >Fecha de nacimiento</label
+        >
         <input
           type="date"
           id="fecha_nacimiento"
@@ -183,10 +241,15 @@
           placeholder="Fecha de nacimiento"
         />
         <div
-          *ngIf="registroForm.get('fecha_nacimiento')?.touched && registroForm.get('fecha_nacimiento')?.invalid"
+          *ngIf="
+            registroForm.get('fecha_nacimiento')?.touched &&
+            registroForm.get('fecha_nacimiento')?.invalid
+          "
           class="text-danger small mt-1"
         >
-          <div *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']">
+          <div
+            *ngIf="registroForm.get('fecha_nacimiento')?.errors?.['required']"
+          >
             La fecha de nacimiento es obligatoria.
           </div>
         </div>

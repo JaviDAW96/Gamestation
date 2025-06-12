@@ -18,7 +18,7 @@ export class RegistroComponent implements OnInit {
   registroForm!: FormGroup;
   errorMessage: string | null = null;
   successMessage: string | null = null;
-
+  isDarkMode = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -51,6 +51,17 @@ export class RegistroComponent implements OnInit {
   get password() { return this.registroForm.get('password'); }
   get confirmPassword() { return this.registroForm.get('confirmPassword'); }
 
+    toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+  
   onSubmit(): void {
     this.errorMessage = this.successMessage = null;
     if (this.registroForm.invalid) {

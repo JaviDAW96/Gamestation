@@ -16,7 +16,7 @@ import { AnalistaService } from '../services/analista.service'; // importa el se
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   errorMessage: string | null = null;
-
+  isDarkMode = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -32,9 +32,20 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // Getters para facilitar acceso a los campos en la plantilla
   get username() { return this.loginForm.get('username'); }
   get password() { return this.loginForm.get('password'); }
+
+
+    toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
 
   onSubmit(): void {
     if (this.loginForm.invalid) {

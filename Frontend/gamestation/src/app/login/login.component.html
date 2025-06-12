@@ -1,5 +1,17 @@
 <div class="login-viewport d-flex align-items-center justify-content-center" style="background: #f8f9fa; min-height: 100vh; position: relative; overflow: hidden;">
 
+
+  <button
+    class="btn btn-outline-dark d-flex align-items-center"
+    type="button"
+    (click)="toggleDarkMode()"
+    [attr.aria-pressed]="isDarkMode"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10;"
+  >
+    <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
+    <span class="ms-1">{{ isDarkMode ? 'Claro' : 'Oscuro' }}</span>
+  </button>
+
   <!-- Imagen a la izquierda ocupando todo el alto -->
   <div style="position: absolute; left: 0; top: 0; height: 100vh; width: 38vw; min-width: 320px; max-width: 600px; background: #111; z-index: 1;">
     <img
