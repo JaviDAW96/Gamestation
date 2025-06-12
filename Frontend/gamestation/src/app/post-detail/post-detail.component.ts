@@ -29,7 +29,9 @@ export class PostDetailComponent implements OnInit {
     if (id !== null && !isNaN(id)) {
       this.postService.getById(id).subscribe(post => this.post = post);
     }
-    this.isDarkMode = document.body.classList.contains('dark-mode');
+    
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 
   volver() {
