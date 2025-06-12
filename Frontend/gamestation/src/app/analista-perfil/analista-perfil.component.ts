@@ -81,6 +81,7 @@ export class AnalistaComponent implements OnInit {
           descripcion: [this.analista.descripcion, Validators.required],
           experienciaLaboral: [this.analista.experienciaLaboral, Validators.required],
           noticiasPublicadas: [this.analista.noticiasPublicadas, [Validators.required, Validators.min(0)]],
+          imagen: [this.analista.usuario.imagen || '', Validators.required] 
         });
       },
       error: () => {
@@ -121,6 +122,7 @@ export class AnalistaComponent implements OnInit {
       descripcion: this.analista.descripcion,
       experienciaLaboral: this.analista.experienciaLaboral,
       noticiasPublicadas: this.analista.noticiasPublicadas,
+      imagen: this.analista.usuario.imagen || '' // <-- Añade esto
     });
   }
 
