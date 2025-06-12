@@ -1,95 +1,56 @@
-<div
-  class="container-fluid py-5 d-flex justify-content-center align-items-center min-vh-100 post-detail-bg"
-  style="position: relative"
->
+<div class="container-fluid py-5 d-flex justify-content-center align-items-center min-vh-100 post-detail-bg" style="position: relative;">
+
   <button
     class="btn btn-outline-dark d-flex align-items-center"
     type="button"
     (click)="toggleDarkMode()"
     [attr.aria-pressed]="isDarkMode"
-    style="position: absolute; top: 24px; right: 32px; z-index: 10"
+    style="position: absolute; top: 24px; right: 32px; z-index: 10;"
   >
     <i class="bi" [ngClass]="isDarkMode ? 'bi-moon-fill' : 'bi-moon'"></i>
-    <span class="ms-1">{{ isDarkMode ? "Claro" : "Oscuro" }}</span>
+    <span class="ms-1">{{ isDarkMode ? 'Claro' : 'Oscuro' }}</span>
   </button>
 
-  <div
-    class="card shadow-lg border-primary"
-    style="max-width: 1100px; width: 100%"
-  >
+  <div class="card shadow-lg border-primary" style="max-width: 1100px; width: 100%;">
+    
     <div class="card-body">
-      <button
-        type="button"
-        class="btn btn-outline-secondary mb-4"
-        (click)="volver()"
-      >
-        &larr; Volver
-      </button>
-
+        <button type="button" class="btn btn-outline-secondary mb-4" (click)="volver()">
+          &larr; Volver
+        </button>
+ 
       <div *ngIf="post?.portada?.url" class="mb-4 text-center">
-        <img
-          [src]="post.portada.url"
-          alt="Portada del post"
-          class="img-fluid rounded"
-          style="max-height: 600px; object-fit: cover; width: 100%"
-        />
+        <img [src]="post.portada.url" alt="Portada del post" class="img-fluid rounded"
+             style="max-height: 600px; object-fit: cover; width: 100%;">
       </div>
-      <h2 class="card-title text-center mb-3 text-primary">
-        {{ post?.titulo }}
-      </h2>
-      <h5 class="card-subtitle text-center mb-4 text-muted">
-        {{ post?.subtitulo }}
-      </h5>
+      <h2 class="card-title text-center mb-3 text-primary">{{ post?.titulo }}</h2>
+      <h5 class="card-subtitle text-center mb-4 text-muted">{{ post?.subtitulo }}</h5>
       <p class="fw-bold mb-1">Descripción:</p>
       <p class="mb-3">{{ post?.descripcion }}</p>
       <p class="fw-bold mb-1">Contenido:</p>
       <div class="mb-4" *ngIf="post?.contenido as contenido">
-        <ng-container
-          *ngFor="let parrafo of getParrafos(contenido); let i = index"
-        >
+        <ng-container *ngFor="let parrafo of getParrafos(contenido); let i = index">
           <p>{{ parrafo }}</p>
 
-          <div
-            *ngIf="i === 0 && post?.imagenContenido1?.url"
-            class="my-4 text-center"
-          >
-            <img
-              [src]="post.imagenContenido1.url"
-              alt="Imagen de contenido 1"
-              class="img-fluid rounded"
-              style="max-height: 420px; object-fit: cover; width: 100%"
-            />
+          <div *ngIf="i === 0 && post?.imagenContenido1?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido1.url" alt="Imagen de contenido 1" class="img-fluid rounded"
+                 style="max-height: 420px; object-fit: cover; width: 100%;">
           </div>
-          <div
-            *ngIf="i === 1 && post?.imagenContenido2?.url"
-            class="my-4 text-center"
-          >
-            <img
-              [src]="post.imagenContenido2.url"
-              alt="Imagen de contenido 2"
-              class="img-fluid rounded"
-              style="max-height: 420px; object-fit: cover; width: 100%"
-            />
+          <div *ngIf="i === 1 && post?.imagenContenido2?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido2.url" alt="Imagen de contenido 2" class="img-fluid rounded"
+                 style="max-height: 420px; object-fit: cover; width: 100%;">
           </div>
-          <div
-            *ngIf="i === 2 && post?.imagenContenido3?.url"
-            class="my-4 text-center"
-          >
-            <img
-              [src]="post.imagenContenido3.url"
-              alt="Imagen de contenido 3"
-              class="img-fluid rounded"
-              style="max-height: 420px; object-fit: cover; width: 100%"
-            />
+          <div *ngIf="i === 2 && post?.imagenContenido3?.url" class="my-4 text-center">
+            <img [src]="post.imagenContenido3.url" alt="Imagen de contenido 3" class="img-fluid rounded"
+                 style="max-height: 420px; object-fit: cover; width: 100%;">
           </div>
+
         </ng-container>
       </div>
       <div class="mb-3">
         <span class="badge bg-primary me-2">{{ post?.tipo | titlecase }}</span>
-        <span class="badge bg-secondary"
-          >Publicado: {{ post?.fechaPublicacion | date : "dd/MM/yyyy" }}</span
-        >
+        <span class="badge bg-secondary">Publicado: {{ post?.fechaPublicacion | date:'dd/MM/yyyy' }}</span>
       </div>
     </div>
   </div>
 </div>
+

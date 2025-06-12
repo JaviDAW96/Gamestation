@@ -24,6 +24,11 @@ export class PostDetailComponent implements OnInit {
   isDarkMode = false;
 
   ngOnInit() {
+    const idParam = this.route.snapshot.paramMap.get('id');
+    const id = idParam !== null ? Number(idParam) : null;
+    if (id !== null && !isNaN(id)) {
+      this.postService.getById(id).subscribe(post => this.post = post);
+    }
     this.isDarkMode = document.body.classList.contains('dark-mode');
   }
 
