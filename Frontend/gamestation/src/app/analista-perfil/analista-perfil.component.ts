@@ -140,6 +140,10 @@ export class AnalistaComponent implements OnInit {
       if (result.isConfirmed) {
         const datos = this.perfilForm.value;
         const analistaActualizado = { ...this.analista, ...datos };
+        analistaActualizado.usuario = {
+          ...this.analista.usuario,
+          imagen: datos.imagen
+        };
 
         this.analistaService.updateAnalista(this.analista.id, analistaActualizado).subscribe({
           next: actualizado => {
