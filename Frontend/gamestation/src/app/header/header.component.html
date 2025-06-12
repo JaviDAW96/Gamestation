@@ -13,7 +13,7 @@
   </button>
 
   <div class="collapse navbar-collapse" id="mainNavbar">
-    <ul class="navbar-nav w-100 mb-2 mb-lg-0 flex-lg-row flex-column">
+    <ul class="navbar-nav mb-2 mb-lg-0 flex-lg-row flex-column">
       <li class="nav-item border-bottom py-2">
         <a class="nav-link" routerLink="/">Home</a>
       </li>
@@ -27,7 +27,9 @@
         <a class="nav-link" routerLink="/noticias">Noticias</a>
       </li>
     </ul>
-    <div class="d-flex flex-column flex-lg-row align-items-stretch gap-2 ms-lg-auto w-100 w-lg-auto">
+
+    
+    <div class="ms-auto d-flex flex-column flex-lg-row align-items-stretch gap-2 w-100 w-lg-auto justify-content-lg-end">
       <span class="navbar-text me-lg-3 mb-2 mb-lg-0">{{ username }}</span>
       <ng-container *ngIf="isAnalista">
         <button class="btn btn-primary me-lg-2 mb-2 mb-lg-0" routerLink="/post/crear">

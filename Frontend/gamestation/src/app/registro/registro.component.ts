@@ -3,8 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterModule } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { CommonModule } from '@angular/common';
-import { FooterComponent } from "../footer/footer.component";
-import { HeaderComponent } from "../header/header.component";
 import Swal from 'sweetalert2';
 
 @Component({
@@ -35,7 +33,8 @@ export class RegistroComponent implements OnInit {
       dni: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required]
     }, { validators: this.passwordsMatch });
-    this.isDarkMode = document.body.classList.contains('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 
 

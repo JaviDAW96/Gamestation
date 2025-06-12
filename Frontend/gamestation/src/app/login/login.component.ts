@@ -25,12 +25,12 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Definimos el formulario con validaciones
     this.loginForm = this.fb.group({
       username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]]
     });
-    this.isDarkMode = document.body.classList.contains('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 
   get username() { return this.loginForm.get('username'); }
@@ -62,11 +62,10 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('username', res.usuario.nombre);
           localStorage.setItem('rol', res.usuario.rol?.rol || '');
 
-          // Si es analista, guarda el analistaId
+
           if (res.usuario.rol?.rol === 'analista') {
             this.analistaService.getAnalistaPorUsuarioId(res.usuario.id).subscribe(analista => {
               localStorage.setItem('analistaId', analista.id.toString());
-              // Aquí puedes navegar o mostrar el Swal si quieres esperar a que esté guardado
               Swal.fire({
                 icon: 'success',
                 title: '¡Bienvenido!',
@@ -75,11 +74,11 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/home'], { queryParams: { welcome: 1 } });
               });
             });
-            return; // Evita que el Swal se muestre dos veces
+            return; 
           }
         }
 
-        // Si no es analista, sigue como siempre
+
         Swal.fire({
           icon: 'success',
           title: '¡Bienvenido!',
