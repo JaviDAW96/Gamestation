@@ -22,9 +22,20 @@ body.dark-mode {
   color: #f1f1f1 !important;
 }
 
+body.dark-mode,
+body.dark-mode .post-viewport {
+  background: #181a1b !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .post-viewport {
+  background: #23272b !important;
+}
+
+
 body.dark-mode .card,
 body.dark-mode .modal-content {
-  background: #23272b !important;
+  background: #262a31 !important;
   color: #f1f1f1 !important;
 }
 

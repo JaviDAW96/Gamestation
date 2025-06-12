@@ -1,6 +1,7 @@
 <div class="login-viewport d-flex align-items-center justify-content-center" style="background: #f8f9fa; min-height: 100vh; position: relative; overflow: hidden;">
 
-  <div style="flex: 0 0 38vw; min-width: 320px; max-width: 600px; background: #111; height: 100vh;">
+  <!-- Imagen a la izquierda ocupando todo el alto -->
+  <div style="position: absolute; left: 0; top: 0; height: 100vh; width: 38vw; min-width: 320px; max-width: 600px; background: #111; z-index: 1;">
     <img
       src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641013/photo-1580327332925-a10e6cb11baa_pwgnlq.avif"
       alt="Decoración izquierda"
@@ -8,9 +9,10 @@
     />
   </div>
 
+  <!-- Card de login centrada en el viewport -->
   <div 
     class="card login-card shadow"
-    style="max-width: 480px; width: 100%; margin-left: 3vw; border: 2.5px solid var(--electric-blue); z-index: 2;"
+    style="max-width: 480px; width: 100%; border: 2.5px solid var(--electric-blue); z-index: 2; background: #fff;"
   >
     <div class="card-body p-5">
 

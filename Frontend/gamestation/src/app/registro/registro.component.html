@@ -1,9 +1,9 @@
 <div
   class="main-wrapper min-vh-100 d-flex align-items-center justify-content-center"
-  style="position: relative; overflow: hidden; background: #f8f9fa;"
+  style="background: #f8f9fa; min-height: 100vh; position: relative; overflow: hidden;"
 >
-  <!-- Imagen a la izquierda ocupando todo el alto -->
-  <div style="flex: 0 0 38vw; min-width: 320px; max-width: 600px; background: #111; height: 100vh;">
+  <!-- Imagen a la izquierda ocupando todo el alto, fija en el viewport -->
+  <div style="position: absolute; left: 0; top: 0; height: 100vh; width: 38vw; min-width: 320px; max-width: 600px; background: #111; z-index: 1;">
     <img
       src="https://res.cloudinary.com/dr0lc3jsc/image/upload/v1749641069/photo-1580464360012-948b4fe5ddc2_rwqpjc.avif"
       alt="Decoración izquierda"
@@ -11,7 +11,7 @@
     />
   </div>
 
-  <!-- Card de registro centrada -->
+  <!-- Card de registro centrada en el viewport -->
   <div
     class="card card-electric shadow-sm p-4"
     style="
@@ -21,7 +21,7 @@
       position: relative;
       z-index: 2;
       background: #fff;
-      margin-left: 3vw;
+      margin-left: 38vw;
     "
   >
     <div class="text-center mb-4">
