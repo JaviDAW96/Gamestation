@@ -19,6 +19,7 @@ export class HeaderComponent {
   username: string = '';
   userId: string | null = null;
   analistaId: string | null = null;
+  isDarkMode = false;
 
   constructor(private authService: AuthService, private router: Router) {
     const token = localStorage.getItem('token');
@@ -46,5 +47,23 @@ export class HeaderComponent {
         Swal.fire('Sesión cerrada', 'Has cerrado sesión correctamente.', 'success');
       }
     });
+  }
+
+  toggleDarkMode() {
+    this.isDarkMode = !this.isDarkMode;
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+      localStorage.setItem('darkMode', 'true');
+    } else {
+      document.body.classList.remove('dark-mode');
+      localStorage.setItem('darkMode', 'false');
+    }
+  }
+
+  ngOnInit() {
+    this.isDarkMode = localStorage.getItem('darkMode') === 'true';
+    if (this.isDarkMode) {
+      document.body.classList.add('dark-mode');
+    }
   }
 }

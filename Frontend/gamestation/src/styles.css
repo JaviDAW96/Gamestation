@@ -16,3 +16,31 @@ app-root {
 :root {
   --electric-blue: #0077ff;
 }
+
+body.dark-mode {
+  background: #181a1b !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .card,
+body.dark-mode .modal-content {
+  background: #23272b !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .navbar,
+body.dark-mode .navbar-light {
+  background: #23272b !important;
+  color: #f1f1f1 !important;
+}
+
+body.dark-mode .form-control {
+  background: #23272b !important;
+  color: #f1f1f1 !important;
+  border-color: #444 !important;
+}
+
+body.dark-mode .btn-outline-dark {
+  color: #f1f1f1 !important;
+  border-color: #f1f1f1 !important;
+}
