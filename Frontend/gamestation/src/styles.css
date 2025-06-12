@@ -190,7 +190,7 @@ body.dark-mode .perfil-viewport .fw-bold {
 
 
 .btn-orange {
-  background: var(--electric-blue);
+  background: #0d6efd; 
   color: #fff;
   border: none;
   transition: background 0.2s, color 0.2s;
@@ -198,8 +198,16 @@ body.dark-mode .perfil-viewport .fw-bold {
 
 .btn-orange:hover,
 .btn-orange:focus {
-  background: #005fcc;
+  background: #1563c7;
   color: #fff;
+}
+
+.btn-orange:disabled,
+.btn-orange[disabled] {
+  background: #b6d4fe !important; 
+  color: #fff !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
 }
 
 
@@ -213,4 +221,13 @@ body.dark-mode .btn-orange:hover,
 body.dark-mode .btn-orange:focus {
   background: #0088cc !important;
   color: #fff !important;
+}
+
+
+body.dark-mode .btn-orange:disabled,
+body.dark-mode .btn-orange[disabled] {
+  background: #444 !important;
+  color: #aaa !important;
+  opacity: 1 !important;
+  cursor: not-allowed;
 }
