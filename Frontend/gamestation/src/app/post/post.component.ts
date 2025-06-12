@@ -239,6 +239,7 @@ export class PostComponent implements OnInit {
 
     if (this.imagenesFA.length + files.length > maxImagenes) {
       Swal.fire('Límite de imágenes', `Solo puedes subir hasta ${maxImagenes} imágenes para este tipo de post.`, 'warning');
+      event.target.value = '';
       return;
     }
 
