@@ -154,3 +154,24 @@ body.dark-mode .terminos-bg .card {
   color: #f1f1f1 !important;
   border-color: #222 !important;
 }
+
+body.dark-mode .perfil-viewport {
+  background: #23272b !important; 
+}
+
+body.dark-mode .perfil-viewport .card {
+  background: #181a1b !important; 
+  color: #f1f1f1 !important;
+  border-color: #222 !important;
+}
+
+body.dark-mode .perfil-viewport .text-muted {
+  color: #b0b8c1 !important;
+}
+
+body.dark-mode .perfil-viewport input,
+body.dark-mode .perfil-viewport .form-control-plaintext {
+  background: #23272b !important;
+  color: #f1f1f1 !important;
+  border-color: #444 !important;
+}

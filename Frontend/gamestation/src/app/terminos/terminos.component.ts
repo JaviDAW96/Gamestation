@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 
 @Component({
@@ -7,7 +7,7 @@ import { CommonModule, Location } from '@angular/common';
   templateUrl: './terminos.component.html',
   styleUrl: './terminos.component.css'
 })
-export class TerminosComponent {
+export class TerminosComponent implements OnInit {
   constructor(private location: Location) {
     
   }
@@ -30,4 +30,9 @@ export class TerminosComponent {
     }
   }
 
+  ngOnInit() {
+    // Sincroniza con el estado real al cargar la vista
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+  }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { Location } from '@angular/common';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule]
 })
-export class ContactoComponent {
+export class ContactoComponent implements OnInit {
   contactForm: FormGroup;
   mensajeEnviado = false;
 
@@ -29,7 +29,8 @@ export class ContactoComponent {
   isDarkMode = false;
 
   ngOnInit() {
-    this.isDarkMode = document.body.classList.contains('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
   }
 
   enviarFormulario() {

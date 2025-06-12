@@ -23,6 +23,8 @@ export class PrivacidadComponent implements OnInit {
 }
 
 ngOnInit() {
-  this.isDarkMode = document.body.classList.contains('dark-mode');
+
+  this.isDarkMode = document.body.classList.contains('dark-mode') ||
+    localStorage.getItem('darkMode') === 'true';
 }
 }

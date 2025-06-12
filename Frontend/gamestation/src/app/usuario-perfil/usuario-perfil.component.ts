@@ -7,10 +7,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
+import { HeaderComponent } from "../header/header.component";
+import { FooterComponent } from "../footer/footer.component";
 
 @Component({
   selector: 'app-usuario',
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HeaderComponent, FooterComponent],
   standalone: true,
   templateUrl: './usuario-perfil.component.html',
   styleUrls: ['./usuario-perfil.component.css']
@@ -111,6 +113,7 @@ export class UsuarioComponent implements OnInit {
       }
     });
   }
+  
 
   onSubmit() {
     if (this.usuarioForm.invalid) return;
