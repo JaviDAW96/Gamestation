@@ -17,14 +17,18 @@ export class PrivacidadComponent implements OnInit {
     this.location.back();
   }
 
-   toggleDarkMode() {
-  document.body.classList.toggle('dark-mode');
-  this.isDarkMode = document.body.classList.contains('dark-mode');
-}
+  ngOnInit() {
+    this.syncDarkMode();
+  }
 
-ngOnInit() {
+  syncDarkMode() {
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+  }
 
-  this.isDarkMode = document.body.classList.contains('dark-mode') ||
-    localStorage.getItem('darkMode') === 'true';
-}
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
+  }
 }

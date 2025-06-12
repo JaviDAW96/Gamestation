@@ -33,10 +33,8 @@ export class RegistroComponent implements OnInit {
       dni: ['', Validators.required],
       fecha_nacimiento: ['', Validators.required]
     }, { validators: this.passwordsMatch });
-    this.isDarkMode = document.body.classList.contains('dark-mode') ||
-      localStorage.getItem('darkMode') === 'true';
+    this.syncDarkMode();
   }
-
 
   private passwordsMatch(control: import('@angular/forms').AbstractControl) {
     const group = control as FormGroup;
@@ -50,6 +48,11 @@ export class RegistroComponent implements OnInit {
   get email()    { return this.registroForm.get('email'); }
   get password() { return this.registroForm.get('password'); }
   get confirmPassword() { return this.registroForm.get('confirmPassword'); }
+
+  syncDarkMode() {
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+  }
 
   toggleDarkMode() {
     document.body.classList.toggle('dark-mode');

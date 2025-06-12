@@ -30,8 +30,7 @@ export class PostDetailComponent implements OnInit {
       this.postService.getById(id).subscribe(post => this.post = post);
     }
     
-    this.isDarkMode = document.body.classList.contains('dark-mode') ||
-      localStorage.getItem('darkMode') === 'true';
+    this.syncDarkMode();
   }
 
   volver() {
@@ -42,9 +41,15 @@ export class PostDetailComponent implements OnInit {
     return contenido ? contenido.split('\n') : [];
   }
 
+  syncDarkMode() {
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+  }
+
   toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
     this.isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
   }
 
 }

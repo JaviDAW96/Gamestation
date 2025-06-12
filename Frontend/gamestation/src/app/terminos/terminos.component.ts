@@ -19,20 +19,18 @@ export class TerminosComponent implements OnInit {
     this.location.back();
   }
 
-    toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    if (this.isDarkMode) {
-      document.body.classList.add('dark-mode');
-      localStorage.setItem('darkMode', 'true');
-    } else {
-      document.body.classList.remove('dark-mode');
-      localStorage.setItem('darkMode', 'false');
-    }
+  syncDarkMode() {
+    this.isDarkMode = document.body.classList.contains('dark-mode') ||
+      localStorage.getItem('darkMode') === 'true';
+  }
+
+  toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    this.isDarkMode = document.body.classList.contains('dark-mode');
+    localStorage.setItem('darkMode', this.isDarkMode ? 'true' : 'false');
   }
 
   ngOnInit() {
-    // Sincroniza con el estado real al cargar la vista
-    this.isDarkMode = document.body.classList.contains('dark-mode') ||
-      localStorage.getItem('darkMode') === 'true';
+    this.syncDarkMode();
   }
 }
